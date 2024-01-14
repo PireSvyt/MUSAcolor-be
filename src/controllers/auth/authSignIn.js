@@ -40,7 +40,7 @@ module.exports = authSignIn = (req, res, next) => {
     ).toString(CryptoJS.enc.Utf8);
   }
 
-  User.findOne({ "auth.login": attemptLogin })
+  User.findOne({ login: attemptLogin })
     .then((user) => {
       if (!user) {
         // Inexisting user
@@ -51,7 +51,7 @@ module.exports = authSignIn = (req, res, next) => {
       } else {
         console.log("user", user);
         console.log("req.body.password", req.body.password);
-        console.log("user.auth", user.auth);
+        console.log("user.password", user.password);
         let attemptPassword = req.body.password;
         if (req.body.encryption === true) {
           attemptPassword = CryptoJS.AES.decrypt(
@@ -60,7 +60,7 @@ module.exports = authSignIn = (req, res, next) => {
           ).toString(CryptoJS.enc.Utf8);
         }
         bcrypt
-          .compare(attemptPassword, user.auth.password)
+          .compare(attemptPassword, user.password)
           .then((valid) => {
             if (!valid) {
               return res.status(401).json({
