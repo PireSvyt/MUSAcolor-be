@@ -12,7 +12,7 @@ const examSchema = mongoose.Schema(
     type: { type: String, required: true },
     date: { type: Date, required: true },
     //time: { type: String, required: true },
-    results: { required: true },
+    results: { type: Object, required: true },
     //notes: { type: String, required: true },
   },
   { strict: true },

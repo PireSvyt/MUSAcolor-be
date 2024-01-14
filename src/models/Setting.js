@@ -11,7 +11,7 @@ const settingSchema = mongoose.Schema(
     settingid: { type: String, required: true, unique: true },
     type: { type: String, required: true },
     key: { type: String, required: true, unique: true },
-    value: { required: true },
+    value: { type: String, required: true },
   },
   { strict: true },
 );
