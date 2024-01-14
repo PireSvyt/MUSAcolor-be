@@ -9,16 +9,14 @@ const userSchema = mongoose.Schema(
   {
     schema: { type: String },
     userid: { type: String, required: true, unique: true },
-    type: { type: String, required: true },
-    // admin, practician, patient
-    patientid: { type: String },
-    // only for patients
+    type: { type: String, required: true }, // admin, practician, and enabling to have patient in the future as users
+    //patientid: { type: String }, // only for patients
     auth: {
       login: { type: String, required: true, unique: true },
       password: { type: String, required: true },
       passwordtoken: { type: String },
-      association: { type: String },
-      activation: { type: String },
+      //association: { type: String },
+      //activation: { type: String },
     },
   },
   { strict: true },
