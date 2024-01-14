@@ -9,25 +9,18 @@ const patientSchema = mongoose.Schema(
   {
     schema: { type: String },
     patientid: { type: String, required: true, unique: true },
-    identity: {
-      key: { type: String, required: true, unique: true },
-      /*
-        firstname: { type: String },
-        lastname: { type: String },
-        birthdata: { type: Date },
-        */
-    },
+    key: { type: String, required: true, unique: true },
     /*
-    contact: {
-        email: { type: String },
-        phone: { type: String },
-        adresse: { 
-            number: { type: String },
-            street: { type: String },
-            postalcode: { type: String },
-            city: { type: String },
-        }
-    },
+    firstname: { type: String },
+    lastname: { type: String },
+    birthdata: { type: Date },
+    email: { type: String },
+    phone: { type: String },
+    adresse: { 
+    number: { type: String },
+    street: { type: String },
+    postalcode: { type: String },
+    city: { type: String },
     */
   },
   { strict: true },
