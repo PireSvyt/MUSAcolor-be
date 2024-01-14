@@ -21,10 +21,10 @@ module.exports = authSendPassword = (req, res, next) => {
     console.log("auth.sendpassword");
   }
 
-  User.findOne({ auth: { login: req.body.login } })
+  User.findOne({ login: req.body.login })
     .then((user) => {
       if (user) {
-        user.auth.passwordtoken = random_string(20);
+        user.passwordtoken = random_string(20);
         user
           .save()
           .then(() => {

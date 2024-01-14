@@ -52,12 +52,12 @@ module.exports = async function serviceMailing(mail, details = {}) {
           {
             token: "{{PASSWORD_RESET_URL}}",
             value:
-              "https://cowhist19.vercel.app/passwordreset/" +
+              "https://musacolor.vercel.app/passwordreset/" +
               details.passwordtoken,
           },
         ];
         mailToSend = {
-          to: "'" + details.pseudo + "<" + details.login + ">'",
+          to: "'" + details.login + "<" + details.login + ">'",
           subject: mails.resetpassword[lang].subject,
           text: replaceTokens(mails.resetpassword[lang].text, replacements),
           html: replaceTokens(mails.resetpassword[lang].html, replacements),
