@@ -50,7 +50,8 @@ module.exports = authSignIn = (req, res, next) => {
         });
       } else {
         console.log("user", user);
-        console.log("user.auth.password", user.auth.password);
+        console.log("req.body.password", req.body.password);
+        console.log("user.auth.password", user['auth']['password']);
         let attemptPassword = req.body.password;
         if (req.body.encryption === true) {
           attemptPassword = CryptoJS.AES.decrypt(
