@@ -26,25 +26,26 @@ module.exports = authPasswordReset = (req, res, next) => {
     });
   } else {
     // Modify
-    let settingToSave = { ...req.body };
-    if (settingToSave.encryption === true) {
-        settingToSave.login = CryptoJS.AES.decrypt(
-            settingToSave.login,
+    let userRequest = { ...req.body };
+    if (userRequest.encryption === true) {
+        userRequest.login = CryptoJS.AES.decrypt(
+            userRequest.login,
             process.env.ENCRYPTION_KEY,
         ).toString(CryptoJS.enc.Utf8);
-        settingToSave.password = CryptoJS.AES.decrypt(
-            settingToSave.password,
+        userRequest.password = CryptoJS.AES.decrypt(
+            userRequest.password,
             process.env.ENCRYPTION_KEY,
         ).toString(CryptoJS.enc.Utf8);
     }
 
     // Save
-    User.findOne({ passwordtoken: settingToSave.token, login: settingToSave.login })
+    User.findOne({ passwordtoken: userRequest.token, login: userRequest.login })
       .then((user) => {
         console.log("auth.passwordreset.found");
-        user.password = settingToSave.password
-        delete user.passwordtoken
-        user.save()
+        let userToSave = { ...user };
+        userToSave.password = userRequest.password
+        delete userToSave.passwordtoken
+        userToSave.save()
           .then(() => {
             console.log("auth.passwordreset.success.modified");
             return res.status(200).json({

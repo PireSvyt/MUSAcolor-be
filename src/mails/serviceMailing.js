@@ -22,7 +22,7 @@ module.exports = async function serviceMailing(mail, details = {}) {
     console.log("mail.mailing");
   }
 
-  const lang = "en";
+  const lang = "fr";
 
   return new Promise((resolve, reject) => {
     // Prep email
@@ -31,7 +31,6 @@ module.exports = async function serviceMailing(mail, details = {}) {
     switch (mail) {
       case "signup":
         replacements = [
-          { token: "{{PSEUDO}}", value: details.pseudo },
           {
             token: "{{ACTIVATION_URL}}",
             value:
@@ -48,7 +47,6 @@ module.exports = async function serviceMailing(mail, details = {}) {
         break;
       case "resetpassword":
         replacements = [
-          { token: "{{PSEUDO}}", value: details.pseudo },
           {
             token: "{{PASSWORD_RESET_URL}}",
             value:
