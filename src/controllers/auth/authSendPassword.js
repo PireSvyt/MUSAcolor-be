@@ -1,7 +1,7 @@
 require("dotenv").config();
 const User = require("../../models/User.js");
 const serviceMailing = require("../../mails/serviceMailing.js");
-var random_string = require("../../resources/toolkit.js");
+var random_string = require("../../resources/random_string.js");
 
 module.exports = authSendPassword = (req, res, next) => {
   /*
