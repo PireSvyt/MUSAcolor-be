@@ -40,7 +40,7 @@ module.exports = authSignIn = (req, res, next) => {
     ).toString(CryptoJS.enc.Utf8);
   }
 
-  User.findOne({ 'auth.login': attemptLogin })
+  User.findOne({ "auth.login": attemptLogin })
     .then((user) => {
       if (!user) {
         // Inexisting user
@@ -49,7 +49,8 @@ module.exports = authSignIn = (req, res, next) => {
           type: "auth.signin.error.notfound",
         });
       } else {
-        console.log("auth.signin found user", user);
+        console.log("user", user);
+        console.log("user.auth.password", user.auth.password);
         let attemptPassword = req.body.password;
         if (req.body.encryption === true) {
           attemptPassword = CryptoJS.AES.decrypt(
