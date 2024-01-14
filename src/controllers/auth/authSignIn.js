@@ -40,7 +40,7 @@ module.exports = authSignIn = (req, res, next) => {
     ).toString(CryptoJS.enc.Utf8);
   }
 
-  User.findOne({ auth: { login: attemptLogin } })
+  User.findOne({ 'auth.login': attemptLogin })
     .then((user) => {
       if (!user) {
         // Inexisting user
