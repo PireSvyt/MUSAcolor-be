@@ -1,46 +1,46 @@
 require("dotenv").config();
-const Patient = require("../../models/Patient.js");
+const User = require("../../models/User.js");
 
-module.exports = patientSave = (req, res, next) => {
+module.exports = userSave = (req, res, next) => {
   /*
   
-  saves a patient
+  saves a user
   
   possible response types
-  * patient.save.error.patientid
-  * patient.save.success.modified
-  * patient.save.error.onmodify
+  * user.save.error.userid
+  * user.save.success.modified
+  * user.save.error.onmodify
   
   */
 
   if (process.env.DEBUG) {
-    console.log("patient.save");
+    console.log("user.save");
   }
 
   // Save
-  if (req.body.patientid === "" || req.body.patientid === undefined) {
-    console.log("patient.save.error.patientid");
+  if (req.body.userid === "" || req.body.userid === undefined) {
+    console.log("user.save.error.userid");
     return res.status(503).json({
-      type: "patient.save.error.patientid",
+      type: "user.save.error.userid",
       error: error,
     });
   } else {
     // Modify
-    let patientToSave = { ...req.body };
+    let userToSave = { ...req.body };
 
     // Save
-    Patient.updateOne({ patientid: patientToSave.patientid }, patientToSave)
+    User.updateOne({ userid: userToSave.userid }, userToSave)
       .then(() => {
-        console.log("patient.save.success.modified");
+        console.log("user.save.success.modified");
         return res.status(200).json({
-          type: "patient.save.success.modified",
+          type: "user.save.success.modified",
         });
       })
       .catch((error) => {
-        console.log("patient.save.error.onmodify");
+        console.log("user.save.error.onmodify");
         console.error(error);
         return res.status(400).json({
-          type: "patient.save.error.onmodify",
+          type: "user.save.error.onmodify",
           error: error,
         });
       });
