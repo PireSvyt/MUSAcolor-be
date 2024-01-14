@@ -26,7 +26,7 @@ module.exports = authAuthenticateAsPractician = (req, res, next) => {
   User.findOne({ userid: decodedToken.userid })
     .then((user) => {
       if (user !== undefined) {
-        if (user.type === "practician") {
+        if (user.type === "practician" || user.type === "admin") {
           next();
         } else {
           return res.status(403).json({
