@@ -40,65 +40,61 @@ module.exports = authSignIn = (req, res, next) => {
     ).toString(CryptoJS.enc.Utf8);
   }
 
-  User.findOne({ 'auth.login': attemptLogin }, function(error, user){
-        if(err){
-            console.log("auth.signin.error.onfind");
-            console.log(error);
+  User.findOne({ 'auth.login': attemptLogin })
+    .then((user) => {
+      if (!user) {
+        // Inexisting user
+        console.log("auth.signin.error.notfound");
+        return res.status(404).json({
+          type: "auth.signin.error.notfound",
+        });
+      } else {
+        let attemptPassword = req.body.password;
+        if (req.body.encryption === true) {
+          attemptPassword = CryptoJS.AES.decrypt(
+            attemptPassword,
+            process.env.ENCRYPTION_KEY,
+          ).toString(CryptoJS.enc.Utf8);
+        }
+        bcrypt
+          .compare(attemptPassword, user.auth.password)
+          .then((valid) => {
+            if (!valid) {
+              return res.status(401).json({
+                type: "auth.signin.error.invalidpassword",
+              });
+            } else {
+              return res.status(200).json({
+                type: "auth.signin.success",
+                data: {
+                  token: jwt.sign(
+                    {
+                      userid: user.userid,
+                      type: user.type,
+                    },
+                    process.env.JWT_SECRET,
+                    {
+                      expiresIn: "72h",
+                    },
+                  ),
+                },
+              });
+            }
+          })
+          .catch((error) => {
+            console.log("auth.signin.error.onpasswordcompare", error);
             return res.status(500).json({
-                type: "auth.signin.error.onfind",
-                error: error,
+              type: "auth.signin.error.onpasswordcompare",
+              error: error,
             });
-        }
-        else{
-            console.log(user);
-            if (!user) {
-                // Inexisting user
-                console.log("auth.signin.error.notfound");
-                return res.status(404).json({
-                  type: "auth.signin.error.notfound",
-                });
-              } else {
-                let attemptPassword = req.body.password;
-                if (req.body.encryption === true) {
-                  attemptPassword = CryptoJS.AES.decrypt(
-                    attemptPassword,
-                    process.env.ENCRYPTION_KEY,
-                  ).toString(CryptoJS.enc.Utf8);
-                }
-                bcrypt
-                  .compare(attemptPassword, user.auth.password)
-                  .then((valid) => {
-                    if (!valid) {
-                      return res.status(401).json({
-                        type: "auth.signin.error.invalidpassword",
-                      });
-                    } else {
-                      return res.status(200).json({
-                        type: "auth.signin.success",
-                        data: {
-                          token: jwt.sign(
-                            {
-                              userid: user.userid,
-                              type: user.type,
-                            },
-                            process.env.JWT_SECRET,
-                            {
-                              expiresIn: "72h",
-                            },
-                          ),
-                        },
-                      });
-                    }
-                  })
-                  .catch((error) => {
-                    console.log("auth.signin.error.onpasswordcompare");
-                    console.log(error);
-                    return res.status(500).json({
-                      type: "auth.signin.error.onpasswordcompare",
-                      error: error,
-                    });
-                  });
-              }
-        }
-  })
+          });
+      }
+    })
+    .catch((error) => {
+      console.log("auth.signin.error.onfind", error);
+      return res.status(500).json({
+        type: "auth.signin.error.onfind",
+        error: error,
+      });
+    });
 };
