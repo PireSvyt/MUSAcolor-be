@@ -1,50 +1,50 @@
 require("dotenv").config();
-const Patient = require("../../models/Patient.js");
+const User = require("../../models/User.js");
 
-module.exports = patientGetOne = (req, res, next) => {
+module.exports = userGetOne = (req, res, next) => {
   /*
   
-  sends back the patient value
+  sends back the user value
   
   possible response types
-  * patient.get.success
-  * patient.get.error.notfound
-  * patient.get.error.undefined
+  * user.get.success
+  * user.get.error.notfound
+  * user.get.error.undefined
   
   */
 
   if (process.env.DEBUG) {
-    console.log("patient.getone");
+    console.log("user.getone");
   }
 
-  Patient.findOne({ patientid: req.params.patientid })
-    .then((patient) => {
-      if (patient !== undefined) {
-        console.log("patient.get.success");
+  User.findOne({ userid: req.params.userid })
+    .then((user) => {
+      if (user !== undefined) {
+        console.log("user.get.success");
         return res.status(200).json({
-          type: "patient.get.success",
+          type: "user.get.success",
           data: {
-            patient: patient,
+            user: user,
           },
         });
       } else {
-        console.log("patient.get.error.undefined");
+        console.log("user.get.error.undefined");
         return res.status(101).json({
-          type: "patient.get.error.undefined",
+          type: "user.get.error.undefined",
           data: {
-            patient: undefined,
+            user: undefined,
           },
         });
       }
     })
     .catch((error) => {
-      console.log("patient.get.error.onfind");
+      console.log("user.get.error.onfind");
       console.error(error);
       return res.status(400).json({
-        type: "patient.get.error.onfind",
+        type: "user.get.error.onfind",
         error: error,
         data: {
-          patient: undefined,
+          user: undefined,
         },
       });
     });
