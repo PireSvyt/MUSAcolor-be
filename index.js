@@ -30,11 +30,11 @@ app.use((req, res, next) => {
 
 // ROUTES
 app.use("/admin", adminRoutes);
+app.use("/setting", settingRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
 app.use("/exam", examRoutes);
-app.use("/setting", settingRoutes);
 
 // Landing
 app.get("/", (req, res) => {
