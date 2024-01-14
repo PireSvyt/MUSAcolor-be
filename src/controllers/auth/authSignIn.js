@@ -49,6 +49,7 @@ module.exports = authSignIn = (req, res, next) => {
           type: "auth.signin.error.notfound",
         });
       } else {
+        console.log("auth.signin found user", user);
         let attemptPassword = req.body.password;
         if (req.body.encryption === true) {
           attemptPassword = CryptoJS.AES.decrypt(
