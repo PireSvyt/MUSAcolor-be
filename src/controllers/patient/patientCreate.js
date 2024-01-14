@@ -6,7 +6,7 @@ module.exports = patientCreate = (req, res, next) => {
   
   ...
   
-  possible response types
+  possible response types 
   * patient.create.success
   * patient.create.error.oncreate
   * patient.create.error.idprovided

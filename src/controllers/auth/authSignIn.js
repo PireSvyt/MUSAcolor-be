@@ -40,7 +40,7 @@ module.exports = authSignIn = (req, res, next) => {
     ).toString(CryptoJS.enc.Utf8);
   }
 
-  User.findOne({ auth: { login: attemptLogin } })
+  User.findOne({ login: attemptLogin })
     .then((user) => {
       if (!user) {
         // Inexisting user
@@ -57,7 +57,7 @@ module.exports = authSignIn = (req, res, next) => {
           ).toString(CryptoJS.enc.Utf8);
         }
         bcrypt
-          .compare(attemptPassword, user.auth.password)
+          .compare(attemptPassword, user.password)
           .then((valid) => {
             if (!valid) {
               return res.status(401).json({
@@ -82,8 +82,7 @@ module.exports = authSignIn = (req, res, next) => {
             }
           })
           .catch((error) => {
-            console.log("auth.signin.error.onpasswordcompare");
-            console.log(error);
+            console.log("auth.signin.error.onpasswordcompare", error);
             return res.status(500).json({
               type: "auth.signin.error.onpasswordcompare",
               error: error,
@@ -92,7 +91,7 @@ module.exports = authSignIn = (req, res, next) => {
       }
     })
     .catch((error) => {
-      console.log("auth.signin.error.onfind");
+      console.log("auth.signin.error.onfind", error);
       return res.status(500).json({
         type: "auth.signin.error.onfind",
         error: error,

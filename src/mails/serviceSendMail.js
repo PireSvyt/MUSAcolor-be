@@ -26,7 +26,7 @@ module.exports = async function serviceSendMail(mailDetails) {
   return new Promise((resolve, reject) => {
     transporter
       .sendMail({
-        from: "'CoWhist19 team<" + process.env.MAIL_ADDRESS + ">'",
+        from: "'MUSAcolor team<" + process.env.MAIL_ADDRESS + ">'",
         to: mailDetails.to,
         subject: mailDetails.subject,
         text: mailDetails.text,

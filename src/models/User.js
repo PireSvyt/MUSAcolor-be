@@ -9,17 +9,13 @@ const userSchema = mongoose.Schema(
   {
     schema: { type: String },
     userid: { type: String, required: true, unique: true },
-    type: { type: String, required: true },
-    // admin, practician, patient
-    patientid: { type: String },
-    // only for patients
-    auth: {
-      login: { type: String, required: true, unique: true },
-      password: { type: String, required: true },
-      passwordtoken: { type: String },
-      association: { type: String },
-      activation: { type: String },
-    },
+    type: { type: String, required: true, enum: ["admin", "practician"]}, // patient in the future
+    //patientid: { type: String }, // only for patients
+    login: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    passwordtoken: { type: String },
+    //association: { type: String },
+    //activation: { type: String },
   },
   { strict: true },
 );
