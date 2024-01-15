@@ -1,5 +1,6 @@
 require("dotenv").config();
 const User = require("../../models/User.js");
+const Patient = require("../../models/Patient.js");
 
 module.exports = userGetOne = (req, res, next) => {
   /*
@@ -10,6 +11,8 @@ module.exports = userGetOne = (req, res, next) => {
   * user.get.success
   * user.get.error.notfound
   * user.get.error.undefined
+  * user.get.error.onfind
+  * user.get.error.onfindpatients
   
   */
 
@@ -17,10 +20,45 @@ module.exports = userGetOne = (req, res, next) => {
     console.log("user.getone");
   }
 
-  User.findOne({ userid: req.params.userid })
+  User.findOne({ userid: req.params.userid }, "userid usertype patients")
     .then((user) => {
       if (user !== undefined) {
         console.log("user.get.success");
+        // practician (and admin)
+        if (user.usertype === "practician" || user.usertype === "admin") {
+          Patient.find({ practicianid: user.userid })
+            .then((patients) => {
+              user.patients = patients
+              return res.status(200).json({
+                type: "user.get.success",
+                data: {
+                  user: user,
+                },
+              });
+            })
+            .catch((error) => {
+              console.log("user.get.error.onfindpatients");
+              console.error(error);
+              user.patients = []
+              return res.status(400).json({
+                type: "user.get.error.onfindpatients",
+                error: error,
+                data: {
+                  user: user,
+                },
+              });
+            });
+        }
+        // patien
+        if (user.usertype === "patient") {
+          delete user.patients
+          return res.status(200).json({
+            type: "user.get.success",
+            data: {
+              user: user,
+            },
+          });
+        }
         return res.status(200).json({
           type: "user.get.success",
           data: {

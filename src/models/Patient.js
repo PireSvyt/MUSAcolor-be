@@ -9,6 +9,7 @@ const patientSchema = mongoose.Schema(
   {
     schema: { type: String },
     patientid: { type: String, required: true, unique: true },
+    practicianid: { type: String, required: true },
     key: { type: String, required: true, unique: true },
     /*
     firstname: { type: String },
