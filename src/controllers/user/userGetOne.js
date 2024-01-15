@@ -20,7 +20,12 @@ module.exports = userGetOne = (req, res, next) => {
     console.log("user.getone");
   }
 
-  User.findOne({ userid: req.params.userid }, "userid usertype patients")
+  // Initialise
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decodedToken = jwt_decode(token);
+
+  User.findOne({ userid: decodedToken.userid }, "userid usertype patients")
     .then((user) => {
       if (user !== undefined) {
         console.log("user.get.success");
