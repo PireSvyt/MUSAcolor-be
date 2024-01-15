@@ -26,7 +26,7 @@ module.exports = userGetOne = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   const decodedToken = jwt_decode(token);
 
-  User.findOne({ userid: decodedToken.userid }, "userid type patients")
+  User.findOne({ userid: decodedToken.userid }, "userid type")
     .then((user) => {
       if (user !== undefined) {
         console.log("user.get.success");
@@ -34,30 +34,31 @@ module.exports = userGetOne = (req, res, next) => {
         if (user.type === "practician" || user.type === "admin") {
           Patient.find({ practicianid: user.userid })
             .then((patients) => {
-              user.patients = patients
+              let userToSend = {...user}
+              userToSend.patients = patients
               return res.status(200).json({
                 type: "user.get.success",
                 data: {
-                  user: user,
+                  user: userToSend,
                 },
               });
             })
             .catch((error) => {
               console.log("user.get.error.onfindpatients");
               console.error(error);
-              user.patients = []
+              let userToSend = {...user}
+              userToSend.patients = []
               return res.status(400).json({
                 type: "user.get.error.onfindpatients",
                 error: error,
                 data: {
-                  user: user,
+                  user: userToSend,
                 },
               });
             });
         }
         // patien
         if (user.usertype === "patient") {
-          delete user.patients
           return res.status(200).json({
             type: "user.get.success",
             data: {
