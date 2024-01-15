@@ -26,12 +26,12 @@ module.exports = userGetOne = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   const decodedToken = jwt_decode(token);
 
-  User.findOne({ userid: decodedToken.userid }, "userid usertype patients")
+  User.findOne({ userid: decodedToken.userid }, "userid type patients")
     .then((user) => {
       if (user !== undefined) {
         console.log("user.get.success");
         // practician (and admin)
-        if (user.usertype === "practician" || user.usertype === "admin") {
+        if (user.type === "practician" || user.type === "admin") {
           Patient.find({ practicianid: user.userid })
             .then((patients) => {
               user.patients = patients
