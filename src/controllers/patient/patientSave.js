@@ -1,4 +1,5 @@
 require("dotenv").config();
+const jwt_decode = require("jwt-decode");
 const Patient = require("../../models/Patient.js");
 
 module.exports = patientSave = (req, res, next) => {
@@ -17,6 +18,11 @@ module.exports = patientSave = (req, res, next) => {
     console.log("patient.save");
   }
 
+  // Initialise
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decodedToken = jwt_decode(token);
+
   // Save
   if (req.body.patientid === "" || req.body.patientid === undefined) {
     console.log("patient.save.error.patientid");
@@ -29,7 +35,10 @@ module.exports = patientSave = (req, res, next) => {
     let patientToSave = { ...req.body };
 
     // Save
-    Patient.updateOne({ patientid: patientToSave.patientid }, patientToSave)
+    Patient.updateOne({ 
+      patientid: patientToSave.patientid,
+      practicianid: decodedToken.userid
+    }, patientToSave)
       .then(() => {
         console.log("patient.save.success.modified");
         return res.status(200).json({
