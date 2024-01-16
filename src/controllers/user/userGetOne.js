@@ -34,17 +34,17 @@ module.exports = userGetOne = (req, res, next) => {
         foreignField: "practicianid",
         localField: "userid",
         as: "patients",
-        /*pipeline: [
+        pipeline: [
           {
             $project: {
               _id: 0,
               schema: 0,
               patientid: 1,
-              practicianid: 0,
+              practicianid: 1,
               key: 1,
             },
           },
-        ],*/
+        ],
       },
     },
     {
