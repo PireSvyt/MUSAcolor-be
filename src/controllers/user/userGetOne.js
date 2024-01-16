@@ -10,10 +10,8 @@ module.exports = userGetOne = (req, res, next) => {
   
   possible response types
   * user.get.success
-  * user.get.error.notfound
-  * user.get.error.undefined
-  * user.get.error.onfind
-  * user.get.error.onfindpatients
+  * user.get.error.onfinduser
+  * user.get.error.onaggregate
   
   */
 
@@ -26,75 +24,63 @@ module.exports = userGetOne = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   const decodedToken = jwt_decode(token);
 
-  User.findOne({ userid: decodedToken.userid }, "userid type")
-    .then((user) => {
-      if (user !== undefined) {
-        console.log("user.get.success");
-        // practician (and admin)
-        if (user.type === "practician" || user.type === "admin") {
-          Patient.find({ practicianid: user.userid })
-            .then((patients) => {
-              let userToSend = {...user}
-              if (patients === undefined) {
-                userToSend.patients = []
-              } else {
-                userToSend.patients = patients
-              }
-              return res.status(200).json({
-                type: "user.get.success",
-                data: {
-                  user: userToSend,
-                },
-              });
-            })
-            .catch((error) => {
-              console.log("user.get.error.onfindpatients");
-              console.error(error);
-              let userToSend = {...user}
-              userToSend.patients = []
-              return res.status(400).json({
-                type: "user.get.error.onfindpatients",
-                error: error,
-                data: {
-                  user: userToSend,
-                },
-              });
-            });
-        }
-        // patient
-        if (user.usertype === "patient") {
-          return res.status(200).json({
-            type: "user.get.success",
-            data: {
-              user: user,
+  User.aggregate([
+    {
+      $match: { userid: decodedToken.userid },
+    },
+    {
+      $lookup: {
+        from: "patients",
+        foreignField: "practicianid",
+        localField: "userid",
+        as: "patients",
+        pipeline: [
+          {
+            $project: {
+              _id: 0,
+              schema: 0,
+              patientid: 1,
+              practicianid: 0,
+              key: 1,
             },
-          });
-        }
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        schema: 0,
+        userid: 1,
+        type: 1,
+        login: 0,
+        password: 0,
+        passwordtoken: 0
+      },
+    },
+  ])
+    .then((users) => {
+      if (users.length === 1) {
+        let userToSend = users[0];
         return res.status(200).json({
           type: "user.get.success",
           data: {
-            user: user,
+            user: userToSend,
           },
         });
       } else {
-        console.log("user.get.error.undefined");
-        return res.status(101).json({
-          type: "user.get.error.undefined",
-          data: {
-            user: undefined,
-          },
+        console.log("user.get.error.onfinduser");
+        return res.status(400).json({
+          type: "user.get.error.onfinduser",
         });
       }
     })
     .catch((error) => {
-      console.log("user.get.error.onfind");
+      console.log("user.get.error.onaggregate");
       console.error(error);
-      return res.status(400).json({
-        type: "user.get.error.onfind",
+      res.status(400).json({
+        type: "user.get.error.onaggregate",
         error: error,
-        data: {
-          user: undefined,
-        },
       });
     });
 };
