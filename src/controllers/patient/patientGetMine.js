@@ -55,7 +55,7 @@ module.exports = patientGetOne = (req, res, next) => {
       });
     });
   
-    Patient.aggregate([
+  Patient.aggregate([
     {
       $match: { 
         patientid: req.params.patientid, 
@@ -88,27 +88,27 @@ module.exports = patientGetOne = (req, res, next) => {
       },
     },
   ])
-    .then((users) => {
-      if (users.length === 1) {
-        let userToSend = users[0];
+    .then((patients) => {
+      if (patients.length === 1) {
+        let patientToSend = patients[0];
         return res.status(200).json({
-          type: "user.getme.success",
+          type: "patient.getmine.success",
           data: {
-            user: userToSend,
+            patient: patientToSend,
           },
         });
       } else {
-        console.log("user.getme.error.onfinduser");
+        console.log("patient.getmine.error.onfinduser");
         return res.status(400).json({
-          type: "user.getme.error.onfinduser",
+          type: "patient.getmine.error.onfinduser",
         });
       }
     })
     .catch((error) => {
-      console.log("user.getme.error.onaggregate");
+      console.log("patient.getmine.error.onaggregate");
       console.error(error);
       res.status(400).json({
-        type: "user.getme.error.onaggregate",
+        type: "patient.getmine.error.onaggregate",
         error: error,
       });
     });

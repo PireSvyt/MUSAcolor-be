@@ -17,9 +17,15 @@ module.exports = patientCreate = (req, res, next) => {
     console.log("patient.create");
   }
 
+  // Initialise
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decodedToken = jwt_decode(token);
+
   // Save
   let patientToSave = { ...req.body };
   patientToSave = new Patient(patientToSave);
+  patientToSave.practicianid = decodedToken.userid
 
   // Save
   patientToSave
