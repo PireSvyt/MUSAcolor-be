@@ -84,7 +84,7 @@ module.exports = patientGetOne = (req, res, next) => {
       $project: {
         _id: 0,
         patientid: 1,
-        key: 1,
+        name: 1,
       },
     },
   ])
