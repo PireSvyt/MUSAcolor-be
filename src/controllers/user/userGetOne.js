@@ -35,7 +35,11 @@ module.exports = userGetOne = (req, res, next) => {
           Patient.find({ practicianid: user.userid })
             .then((patients) => {
               let userToSend = {...user}
-              userToSend.patients = patients
+              if (patients === undefined) {
+                userToSend.patients = []
+              } else {
+                userToSend.patients = patients
+              }
               return res.status(200).json({
                 type: "user.get.success",
                 data: {
@@ -57,7 +61,7 @@ module.exports = userGetOne = (req, res, next) => {
               });
             });
         }
-        // patien
+        // patient
         if (user.usertype === "patient") {
           return res.status(200).json({
             type: "user.get.success",
