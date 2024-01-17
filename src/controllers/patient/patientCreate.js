@@ -28,6 +28,8 @@ module.exports = patientCreate = (req, res, next) => {
   patientToSave = new Patient(patientToSave);
   patientToSave.practicianid = decodedToken.userid
 
+  console.log("patientToSave", patientToSave)
+
   // Save
   patientToSave
     .save()
