@@ -53,6 +53,7 @@ module.exports = patientGetMine = (req, res, next) => {
         _id: 0,
         patientid: 1,
         name: 1,
+        exams: 1
       },
     },
   ])
