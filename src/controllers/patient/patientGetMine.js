@@ -22,38 +22,6 @@ module.exports = patientGetMine = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   const decodedToken = jwt_decode(token);
-
-  Patient.findOne({ patientid: req.params.patientid, practicianid: decodedToken.userid })
-    .then((patient) => {
-      if (patient !== undefined) {
-        console.log("patient.getmine.success");
-        return res.status(200).json({
-          type: "patient.getmine.success",
-          data: {
-            patient: patient,
-          },
-        });
-      } else {
-        console.log("patient.getmine.error.undefined");
-        return res.status(101).json({
-          type: "patient.getmine.error.undefined",
-          data: {
-            patient: undefined,
-          },
-        });
-      }
-    })
-    .catch((error) => {
-      console.log("patient.getmine.error.onfind");
-      console.error(error);
-      return res.status(400).json({
-        type: "patient.getmine.error.onfind",
-        error: error,
-        data: {
-          patient: undefined,
-        },
-      });
-    });
   
   Patient.aggregate([
     {
