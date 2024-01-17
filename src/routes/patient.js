@@ -9,7 +9,8 @@ const patientSave = require("../controllers/patient/patientSave.js");
 //const patientGetOne = require("../controllers/patient/patientGetOne.js");
 const patientGetMine = require("../controllers/patient/patientGetMine.js");
 //const patientGetAll = require("../controllers/patient/patientGetAll.js");
-const patientDelete = require("../controllers/patient/patientDelete.js");
+//const patientDelete = require("../controllers/patient/patientDelete.js");
+const patientDeleteMine = require("../controllers/patient/patientDeleteMine.js");
 
 router.post(
   "/v1/create",
@@ -44,12 +45,18 @@ router.get(
   authAuthenticateAsPractician,
   patientGetAll,
 );
-*/
 router.delete(
   "/v1/:patientid",
   authAuthenticate,
   authAuthenticateAsPractician,
   patientDelete,
+);
+*/
+router.post(
+  "/v1/delete",
+  authAuthenticate,
+  authAuthenticateAsPractician,
+  patientDeleteMine,
 );
 
 module.exports = router;

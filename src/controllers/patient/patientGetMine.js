@@ -2,7 +2,7 @@ require("dotenv").config();
 const jwt_decode = require("jwt-decode");
 const Patient = require("../../models/Patient.js");
 
-module.exports = patientGetOne = (req, res, next) => {
+module.exports = patientGetMine = (req, res, next) => {
   /*
   
   sends back the patient value

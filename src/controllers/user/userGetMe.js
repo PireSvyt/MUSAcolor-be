@@ -38,7 +38,7 @@ module.exports = userGetOne = (req, res, next) => {
             $project: {
               _id: 0,
               patientid: 1,
-              practicianid: 1,
+              //practicianid: 1,
               name: 1,
             },
           },
