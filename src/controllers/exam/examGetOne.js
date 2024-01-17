@@ -17,7 +17,7 @@ module.exports = examGetOne = (req, res, next) => {
     console.log("exam.getone");
   }
 
-  Exam.findOne({ key: req.params.key })
+  Exam.findOne({ examid: req.params.examid })
     .then((exam) => {
       if (exam !== undefined) {
         console.log("exam.get.success");

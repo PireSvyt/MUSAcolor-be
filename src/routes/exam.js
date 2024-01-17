@@ -10,6 +10,7 @@ const examGetOne = require("../controllers/exam/examGetOne.js");
 //const examGetAll = require("../controllers/exam/examGetAll.js");
 //const examDelete = require("../controllers/exam/examDelete.js");
 const examDeleteMine = require("../controllers/exam/examDeleteMine.js");
+const examGetResults = require("../controllers/exam/examGetResults.js");
 
 router.post(
   "/v1/create",
@@ -24,12 +25,18 @@ router.post(
   authAuthenticateAsPractician,
   examSave,
 );
-*/
 router.get(
   "/v1/:examid",
   authAuthenticate,
   authAuthenticateAsPractician,
   examGetOne,
+);
+*/
+router.get(
+  "/v1/:examid",
+  authAuthenticate,
+  authAuthenticateAsPractician,
+  examGetResults,
 );
 /*
 router.get(
