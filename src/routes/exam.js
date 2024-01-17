@@ -37,9 +37,15 @@ router.get(
   authAuthenticateAsPractician,
   examGetAll,
 );
-*/
 router.delete(
   "/v1/:examid",
+  authAuthenticate,
+  authAuthenticateAsPractician,
+  examDelete,
+);
+*/
+router.post(
+  "/v1/delete",
   authAuthenticate,
   authAuthenticateAsPractician,
   examDelete,
