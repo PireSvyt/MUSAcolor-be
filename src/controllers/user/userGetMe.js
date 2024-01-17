@@ -39,7 +39,7 @@ module.exports = userGetOne = (req, res, next) => {
               _id: 0,
               patientid: 1,
               practicianid: 1,
-              key: 1,
+              name: 1,
             },
           },
         ],
