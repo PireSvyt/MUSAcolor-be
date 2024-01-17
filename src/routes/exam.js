@@ -5,10 +5,11 @@ const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
 const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
 
 const examCreate = require("../controllers/exam/examCreate.js");
-const examSave = require("../controllers/exam/examSave.js");
+//const examSave = require("../controllers/exam/examSave.js");
 const examGetOne = require("../controllers/exam/examGetOne.js");
-const examGetAll = require("../controllers/exam/examGetAll.js");
-const examDelete = require("../controllers/exam/examDelete.js");
+//const examGetAll = require("../controllers/exam/examGetAll.js");
+//const examDelete = require("../controllers/exam/examDelete.js");
+const examDeleteMine = require("../controllers/exam/examDeleteMine.js");
 
 router.post(
   "/v1/create",
@@ -48,7 +49,7 @@ router.post(
   "/v1/delete",
   authAuthenticate,
   authAuthenticateAsPractician,
-  examDelete,
+  examDeleteMine,
 );
 
 module.exports = router;
