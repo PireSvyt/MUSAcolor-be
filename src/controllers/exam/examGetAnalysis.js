@@ -1,36 +1,39 @@
 require("dotenv").config();
 const Exam = require("../../models/Exam.js");
 
-module.exports = examGetResults = (req, res, next) => {
+module.exports = examGetAnalysis = (req, res, next) => {
   /*
   
   sends back the exam value
   
   possible response types
-  * exam.get.success
-  * exam.get.error.notfound
-  * exam.get.error.undefined
+  * exam.getanalysis.success
+  * exam.getanalysis.error.notfound
+  * exam.getanalysis.error.undefined
   
   */
 
   if (process.env.DEBUG) {
-    console.log("exam.getresults");
+    console.log("exam.getanalysis");
   }
-  Exam.findOne({ examid: req.params.examid }, "examid patientid type date results")
+  Exam.findOne({ 
+    examid: req.body.examid,
+    patientid: req.body.patientid
+  }, "examid patientid type date results")
     .then((exam) => {
       if (exam !== undefined) {
-        console.log("exam.get.success");
+        console.log("exam.getanalysis.success");
         let processedExam = serviceComputeResults(exam)
         return res.status(200).json({
-          type: "exam.get.success",
+          type: "exam.getanalysis.success",
           data: {
             exam: processedExam,
           },
         });
       } else {
-        console.log("exam.get.error.undefined");
+        console.log("exam.getanalysis.error.undefined");
         return res.status(101).json({
-          type: "exam.get.error.undefined",
+          type: "exam.getanalysis.error.undefined",
           data: {
             exam: {
               examid: null,
@@ -44,10 +47,10 @@ module.exports = examGetResults = (req, res, next) => {
       }
     })
     .catch((error) => {
-      console.log("exam.get.error.onfind");
+      console.log("exam.getanalysis.error.onfind");
       console.error(error);
       return res.status(400).json({
-        type: "exam.get.error.onfind",
+        type: "exam.getanalysis.error.onfind",
         error: error,
         data: {
           exam: {

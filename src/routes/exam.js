@@ -10,7 +10,7 @@ const examGetOne = require("../controllers/exam/examGetOne.js");
 //const examGetAll = require("../controllers/exam/examGetAll.js");
 //const examDelete = require("../controllers/exam/examDelete.js");
 const examDeleteMine = require("../controllers/exam/examDeleteMine.js");
-const examGetResults = require("../controllers/exam/examGetResults.js");
+const examGetAnalysis = require("../controllers/exam/examGetAnalysis.js");
 
 router.post(
   "/v1/create",
@@ -32,11 +32,11 @@ router.get(
   examGetOne,
 );
 */
-router.get(
-  "/v1/:examid",
+router.post(
+  "/v1/getanalysis",
   authAuthenticate,
   authAuthenticateAsPractician,
-  examGetResults,
+  examGetAnalysis,
 );
 /*
 router.get(
