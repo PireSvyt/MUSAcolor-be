@@ -32,7 +32,7 @@ module.exports = examGetAnalysis = (req, res, next) => {
         });
       } else {
         console.log("exam.getanalysis.error.undefined");
-        return res.status(101).json({
+        return res.status(404).json({
           type: "exam.getanalysis.error.undefined",
           data: {
             exam: {
