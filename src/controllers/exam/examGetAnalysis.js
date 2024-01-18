@@ -21,13 +21,13 @@ module.exports = examGetAnalysis = (req, res, next) => {
     patientid: req.body.patientid
   }, "examid patientid type date results")
     .then((exam) => {
-      if (exam !== undefined) {
+      if (exam !== undefined && exam !== null) {
         console.log("exam.getanalysis.success", exam);
-        //let processedExam = serviceComputeResults(exam)
+        let processedExam = serviceComputeResults(exam)
         return res.status(200).json({
           type: "exam.getanalysis.success",
           data: {
-            exam: exam//processedExam,
+            exam: processedExam,
           },
         });
       } else {
@@ -40,7 +40,8 @@ module.exports = examGetAnalysis = (req, res, next) => {
               patientid: null,
               type: null,
               date: null,
-              results: null
+              results: null,
+              analysis: null
             },
           },
         });
@@ -58,7 +59,8 @@ module.exports = examGetAnalysis = (req, res, next) => {
             patientid: null,
             type: null,
             date: null,
-            results: null
+            results: null,
+            analysis: null
           },
         },
       });
@@ -74,41 +76,23 @@ function serviceComputeResults (exam) {
       break
     default:
       console.error("exam.computeresults unmatched type", exam.type)
-      processedExam.analysis = {}
+      processedExam.analysis = null
   }
   return processedExam
 }
 
 function serviceComputePVO (exam) {
   console.log("exam.serviceComputePVO");
-  /*let res = {
-    time: 12,
-    rows: [
-      {
-        cells: [
-          {
-            color: "#123",
-            state: "visible"
-          },
-          {
-            color: "#456",
-            state: "hidden"
-          }
-        ]
-      }
-    ]
-  }
-  */
   let analysis = {
     colors: {}
   }
-  exam.results.rows.forEach(row => {
-    row.cells.forEach((cell) => {
-      if (analysis.colors[cell.color] === undefined) {
-        analysis.colors[cell.color] = 0
+  Object.keys(exam.results.rows).forEach(row => {
+    Object.keys(exam.results.rows[row].cols).forEach(col => {
+      if (analysis.colors[exam.results.rows[row].cols[col].color] === undefined) {
+        analysis.colors[exam.results.rows[row].cols[col].color] = 0
       }
-      if (analysis.colors[cell.state] === "visible") {
-        analysis.colors[cell.state] += 1
+      if (exam.results.rows[row].cols[col].state === "visible") {
+        analysis.colors[exam.results.rows[row].cols[col].color] += 1
       }
     })
   });
