@@ -22,8 +22,8 @@ module.exports = examGetAnalysis = (req, res, next) => {
   }, "examid patientid type date results")
     .then((exam) => {
       if (exam !== undefined && exam !== null) {
-        console.log("exam.getanalysis.success", exam);
-        let processedExam = serviceComputeResults(exam)
+        console.log("exam.getanalysis.success", exam.toObject());
+        let processedExam = serviceComputeResults(exam.toObject())
         return res.status(200).json({
           type: "exam.getanalysis.success",
           data: {
