@@ -6,9 +6,9 @@ const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
 
 const userCreate = require("../controllers/user/userCreate.js");
 const userSave = require("../controllers/user/userSave.js");
-//const userGetOne = require("../controllers/user/userGetOne.js");
+const userGetOne = require("../controllers/user/userGetOne.js");
 const userGetMe = require("../controllers/user/userGetMe.js");
-//const userGetAll = require("../controllers/user/userGetAll.js");
+const userGetAll = require("../controllers/user/userGetAll.js");
 const userDelete = require("../controllers/user/userDelete.js");
 
 router.post("/v1/create", authAuthenticate, adminAuthenticate, userCreate);
