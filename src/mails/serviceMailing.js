@@ -50,8 +50,8 @@ module.exports = async function serviceMailing(mail, details = {}) {
           {
             token: "{{PASSWORD_RESET_URL}}",
             value:
-              "https://musacolor.vercel.app/passwordreset/" +
-              details.passwordtoken,
+              "https://musacolor.vercel.app/passwordreset?token=" +
+              details.passwordtoken + "&login=" + details.login,
           },
         ];
         mailToSend = {

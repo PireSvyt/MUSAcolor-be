@@ -1,4 +1,5 @@
 require("dotenv").config();
+const CryptoJS = require("crypto-js");
 const User = require("../../models/User.js");
 const serviceMailing = require("../../mails/serviceMailing.js");
 var random_string = require("../../resources/random_string.js");
@@ -21,7 +22,16 @@ module.exports = authSendPassword = (req, res, next) => {
     console.log("auth.sendpassword");
   }
 
-  User.findOne({ login: req.body.login })
+  // Modify
+  let userRequest = { ...req.body };
+  if (userRequest.encryption === true) {
+      userRequest.login = CryptoJS.AES.decrypt(
+          userRequest.login,
+          process.env.ENCRYPTION_KEY,
+      ).toString(CryptoJS.enc.Utf8);
+  }
+
+  User.findOne({ login: userRequest.login })
     .then((user) => {
       if (user) {
         user.passwordtoken = random_string(20);

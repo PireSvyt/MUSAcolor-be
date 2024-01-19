@@ -21,6 +21,9 @@ module.exports = examCreate = (req, res, next) => {
   let examToSave = { ...req.body };
   examToSave = new Exam(examToSave);
 
+  // Update
+  examToSave.date = Date.now()
+
   // Save
   examToSave
     .save()

@@ -1,7 +1,6 @@
 require("dotenv").config();
 const jwt_decode = require("jwt-decode");
 const User = require("../../models/User.js");
-const Patient = require("../../models/Patient.js");
 
 module.exports = userGetOne = (req, res, next) => {
   /*
@@ -9,19 +8,24 @@ module.exports = userGetOne = (req, res, next) => {
   sends back the user value
   
   possible response types
-  * user.get.success
-  * user.get.error.onfinduser
-  * user.get.error.onaggregate
+  * user.getme.success
+  * user.getme.error.onfinduser
+  * user.getme.error.onaggregate
   
   */
 
   if (process.env.DEBUG) {
-    console.log("user.getone");
+    console.log("user.getme");
   }
+
+  // Initialise
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  const decodedToken = jwt_decode(token);
 
   User.aggregate([
     {
-      $match: { userid: req.param.userid },
+      $match: { userid: decodedToken.userid },
     },
     {
       $lookup: {
@@ -34,8 +38,8 @@ module.exports = userGetOne = (req, res, next) => {
             $project: {
               _id: 0,
               patientid: 1,
-              practicianid: 1,
-              key: 1,
+              //practicianid: 1,
+              name: 1,
             },
           },
         ],
@@ -54,23 +58,23 @@ module.exports = userGetOne = (req, res, next) => {
       if (users.length === 1) {
         let userToSend = users[0];
         return res.status(200).json({
-          type: "user.get.success",
+          type: "user.getme.success",
           data: {
             user: userToSend,
           },
         });
       } else {
-        console.log("user.get.error.onfinduser");
+        console.log("user.getme.error.onfinduser");
         return res.status(400).json({
-          type: "user.get.error.onfinduser",
+          type: "user.getme.error.onfinduser",
         });
       }
     })
     .catch((error) => {
-      console.log("user.get.error.onaggregate");
+      console.log("user.getme.error.onaggregate");
       console.error(error);
       res.status(400).json({
-        type: "user.get.error.onaggregate",
+        type: "user.getme.error.onaggregate",
         error: error,
       });
     });
