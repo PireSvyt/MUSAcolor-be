@@ -9,6 +9,8 @@ module.exports = authPasswordReset = (req, res, next) => {
   possible response types
   * auth.passwordreset.success
   * auth.passwordreset.error.inputs
+  * auth.passwordreset.error.onfind
+  * auth.passwordreset.error.onmodify
   * auth.passwordreset.error.notfound
   
   */
@@ -19,7 +21,8 @@ module.exports = authPasswordReset = (req, res, next) => {
 
   // Save
   if ((req.body.token === "" || req.body.token === undefined) && 
-      (req.body.login === "" || req.body.login === undefined)) {
+      (req.body.login === "" || req.body.login === undefined) && 
+      (req.body.password === "" || req.body.password === undefined)) {
     console.log("auth.passwordreset.error.inputs");
     return res.status(503).json({
       type: "auth.passwordreset.error.inputs",
@@ -32,43 +35,46 @@ module.exports = authPasswordReset = (req, res, next) => {
             userRequest.login,
             process.env.ENCRYPTION_KEY,
         ).toString(CryptoJS.enc.Utf8);
-        userRequest.password = CryptoJS.AES.decrypt(
-            userRequest.password,
+        userRequest.token = CryptoJS.AES.decrypt(
+            userRequest.token,
             process.env.ENCRYPTION_KEY,
         ).toString(CryptoJS.enc.Utf8);
     }
-
     // Save
     User.findOne({ passwordtoken: userRequest.token, login: userRequest.login })
       .then((user) => {
-        console.log("auth.passwordreset.found");
-        let userToSave = { ...user };
-        userToSave.password = userRequest.password
-        delete userToSave.passwordtoken
-        userToSave.save()
-          .then(() => {
-            console.log("auth.passwordreset.success.modified");
-            return res.status(200).json({
-              type: "auth.passwordreset.success.modified",
-              data: {
-                userid: user.userid,
-              },
-            });
-          })
-          .catch((error) => {
-            console.log("auth.passwordreset.error.onmodify");
-            console.error(error);
-            return res.status(400).json({
-              type: "auth.passwordreset.error.onmodify",
-              error: error,
-            });
+        if (user === null) {
+          console.log("auth.passwordreset.notfound");
+          return res.status(404).json({
+            type: "auth.passwordreset.error.notfound",
           });
+        } else {
+          console.log("auth.passwordreset.found");
+          let userToSave = { ...user };
+          userToSave.password = userRequest.password
+          delete userToSave.passwordtoken
+          userToSave.save()
+            .then(() => {
+              console.log("auth.passwordreset.success");
+              return res.status(200).json({
+                type: "auth.passwordreset.success",
+              });
+            })
+            .catch((error) => {
+              console.log("auth.passwordreset.error.onmodify");
+              console.error(error);
+              return res.status(400).json({
+                type: "auth.passwordreset.error.onmodify",
+                error: error,
+              });
+            });
+        }
       })
       .catch((error) => {
-        console.log("auth.passwordreset.error.onmodify");
+        console.log("auth.passwordreset.error.onfind");
         console.error(error);
         return res.status(400).json({
-          type: "auth.passwordreset.error.onmodify",
+          type: "auth.passwordreset.error.onfind",
           error: error,
         });
       });

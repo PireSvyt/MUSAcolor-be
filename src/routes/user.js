@@ -14,7 +14,7 @@ const userDelete = require("../controllers/user/userDelete.js");
 router.post("/v1/create", authAuthenticate, adminAuthenticate, userCreate);
 router.post("/v1/save", authAuthenticate, adminAuthenticate, userSave);
 router.get("/v1", authAuthenticate, adminAuthenticate, userGetMe);
-//router.get("/v1", authAuthenticate, adminAuthenticate, userGetAll);
+router.get("/v1", authAuthenticate, adminAuthenticate, userGetAll);
 router.delete("/v1/:userid", authAuthenticate, adminAuthenticate, userDelete);
 
 module.exports = router;
