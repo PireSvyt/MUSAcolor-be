@@ -27,6 +27,7 @@ module.exports = patientCreate = (req, res, next) => {
   let patientToSave = { ...req.body };
   patientToSave.practicianid = decodedToken.userid
   patientToSave = new Patient(patientToSave);
+  console.log("patientToSave", patientToSave.toObject())
 
   // Save
   patientToSave
