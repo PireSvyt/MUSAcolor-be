@@ -19,14 +19,9 @@ module.exports = userGetOne = (req, res, next) => {
     console.log("user.getone");
   }
 
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
-
   User.aggregate([
     {
-      $match: { userid: decodedToken.userid },
+      $match: { userid: req.param.userid },
     },
     {
       $lookup: {
