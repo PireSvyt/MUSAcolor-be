@@ -123,7 +123,7 @@ function serviceComputeLuscher8 (exam) {
   
   Object.keys(exam.results.rows).forEach(row => {
     // Gather sequences
-    analysis.sequences[row].list = exam.results.rows[row].sort(compareTiles).map(tile => {
+    analysis.sequences[row].list = exam.results.rows[row].cols.sort(compareTiles).map(tile => {
       return testColors[tile.color].id
     })
     // Build terms
