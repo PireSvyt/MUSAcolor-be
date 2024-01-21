@@ -125,7 +125,7 @@ function serviceComputeLuscher8 (exam) {
   
   Object.keys(exam.results.rows).forEach(row => {
     analysis.rows[row] = {
-      list: [],
+      sequence: [],
       terms: {}
     }
     // Gather sequences
