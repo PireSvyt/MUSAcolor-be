@@ -125,7 +125,8 @@ function serviceComputeLuscher8 (exam) {
     }
     // Gather sequences
     let rowValues = Object.values(exam.results.rows[row].cols)
-    analysis.sequences[row].list = rowValues.sort(compareTiles).map(tile => {
+    rowValues = rowValues.sort(compareTiles)
+    analysis.sequences[row].list = rowValues.map(tile => {
       return testColors[tile.color].id
     })
     // Build terms
