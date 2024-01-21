@@ -115,49 +115,52 @@ function serviceComputeLuscher8 (exam) {
     '#000000': { id: 7, name: "noir" },
   }
   let analysis = {
-    sequences: []
+    rows: []
   }
-  
-  Object.keys(exam.results.rows).forEach(row => {
-    analysis.sequences[row] = {
-      list: [],
-      terms: {}
-    }
-    // Gather sequences
-    let rowValues = Object.values(exam.results.rows[row].cols)
-    rowValues = rowValues.sort(compareTiles)
-    analysis.sequences[row].list = rowValues.map(tile => {
-      return testColors[tile.color].id
-    })
-    // Build terms
-    analysis.sequences[row].terms = {
-      preference: [
-        exam.sequences[row].list[0],
-        exam.sequences[row].list[1]
-      ],
-      sympathy: [
-        exam.sequences[row].list[2],
-        exam.sequences[row].list[3]
-      ],
-      indifference: [
-        exam.sequences[row].list[4],
-        exam.sequences[row].list[5]
-      ],
-      rejection: [
-        exam.sequences[row].list[6],
-        exam.sequences[row].list[7]
-      ],
-      fifthterm: [
-        exam.sequences[row].list[0],
-        exam.sequences[row].list[7]
-      ],
-    }
-  });
   function compareTiles(a, b) {
     let aDate = new Date(a.time)
     let bDate = new Date(b.time)
     return aDate - bDate
   }
-
+  
+  Object.keys(exam.results.rows).forEach(row => {
+    analysis.rows[row] = {
+      list: [],
+      terms: {}
+    }
+    // Gather sequences
+    let rowValues = Object.values(exam.results.rows[row].cols)
+    console.log("rowValues", rowValues)
+    let sortedValues = rowValues.sort(compareTiles)
+    console.log("sortedValues", sortedValues)
+    let mappedValues = sortedValues.map(tile => {
+      return testColors[tile.color].id
+    })
+    console.log("mappedValues", mappedValues)
+    analysis.rows[row].list = mappedValues
+    // Build terms
+    analysis.rows[row].terms = {
+      preference: [
+        exam.rows[row].sequence[0],
+        exam.rows[row].sequence[1]
+      ],
+      sympathy: [
+        exam.rows[row].sequence[2],
+        exam.rows[row].sequence[3]
+      ],
+      indifference: [
+        exam.rows[row].sequence[4],
+        exam.rows[row].sequence[5]
+      ],
+      rejection: [
+        exam.rows[row].sequence[6],
+        exam.rows[row].sequence[7]
+      ],
+      fifthterm: [
+        exam.rows[row].sequence[0],
+        exam.rows[row].sequence[7]
+      ],
+    }
+  })
   return analysis
 }
