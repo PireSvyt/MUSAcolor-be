@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
+const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
 const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
 
 const examCreate = require("../controllers/exam/examCreate.js");
@@ -38,13 +39,13 @@ router.post(
   authAuthenticateAsPractician,
   examGetAnalysis,
 );
-/*
 router.get(
   "/v1",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  adminAuthenticate,
   examGetAll,
 );
+/*
 router.delete(
   "/v1/:examid",
   authAuthenticate,
