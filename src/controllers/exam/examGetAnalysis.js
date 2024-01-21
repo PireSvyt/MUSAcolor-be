@@ -130,35 +130,35 @@ function serviceComputeLuscher8 (exam) {
     }
     // Gather sequences
     let rowValues = Object.values(exam.results.rows[row].cols)
-    console.log("rowValues", rowValues)
+    //console.log("rowValues", rowValues)
     let sortedValues = rowValues.sort(compareTiles)
-    console.log("sortedValues", sortedValues)
+    //console.log("sortedValues", sortedValues)
     let mappedValues = sortedValues.map(tile => {
       return testColors[tile.color].id
     })
-    console.log("mappedValues", mappedValues)
+    //console.log("mappedValues", mappedValues)
     analysis.rows[row].sequence = mappedValues
     // Build terms
     analysis.rows[row].terms = {
       preference: [
-        exam.rows[row].sequence[0],
-        exam.rows[row].sequence[1]
+        analysis.rows[row].sequence[0],
+        analysis.rows[row].sequence[1]
       ],
       sympathy: [
-        exam.rows[row].sequence[2],
-        exam.rows[row].sequence[3]
+        analysis.rows[row].sequence[2],
+        analysis.rows[row].sequence[3]
       ],
       indifference: [
-        exam.rows[row].sequence[4],
-        exam.rows[row].sequence[5]
+        analysis.rows[row].sequence[4],
+        analysis.rows[row].sequence[5]
       ],
       rejection: [
-        exam.rows[row].sequence[6],
-        exam.rows[row].sequence[7]
+        analysis.rows[row].sequence[6],
+        analysis.rows[row].sequence[7]
       ],
       fifthterm: [
-        exam.rows[row].sequence[0],
-        exam.rows[row].sequence[7]
+        analysis.rows[row].sequence[0],
+        analysis.rows[row].sequence[7]
       ],
     }
   })
