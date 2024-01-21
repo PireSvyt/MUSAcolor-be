@@ -137,7 +137,7 @@ function serviceComputeLuscher8 (exam) {
       return testColors[tile.color].id
     })
     console.log("mappedValues", mappedValues)
-    analysis.rows[row].list = mappedValues
+    analysis.rows[row].sequence = mappedValues
     // Build terms
     analysis.rows[row].terms = {
       preference: [
