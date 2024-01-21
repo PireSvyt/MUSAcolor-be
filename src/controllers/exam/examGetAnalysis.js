@@ -123,7 +123,8 @@ function serviceComputeLuscher8 (exam) {
   
   Object.keys(exam.results.rows).forEach(row => {
     // Gather sequences
-    analysis.sequences[row].list = exam.results.rows[row].cols.sort(compareTiles).map(tile => {
+    let rowValues = Object.values(exam.results.rows[row].cols)
+    analysis.sequences[row].list = rowValues.sort(compareTiles).map(tile => {
       return testColors[tile.color].id
     })
     // Build terms
@@ -132,7 +133,7 @@ function serviceComputeLuscher8 (exam) {
         exam.sequences[row].list[0],
         exam.sequences[row].list[1]
       ],
-      sympathic: [
+      sympathy: [
         exam.sequences[row].list[2],
         exam.sequences[row].list[3]
       ],
@@ -144,7 +145,7 @@ function serviceComputeLuscher8 (exam) {
         exam.sequences[row].list[6],
         exam.sequences[row].list[7]
       ],
-      fifth: [
+      fifthterm: [
         exam.sequences[row].list[0],
         exam.sequences[row].list[7]
       ],
