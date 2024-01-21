@@ -74,6 +74,9 @@ function serviceComputeResults (exam) {
     case "pvo":
       processedExam.analysis = serviceComputePVO (exam)
       break
+    case "luscher8":
+      processedExam.analysis = serviceComputeLuscher8 (exam)
+      break
     default:
       console.error("exam.computeresults unmatched type", exam.type)
       processedExam.analysis = null
@@ -96,5 +99,62 @@ function serviceComputePVO (exam) {
       }
     })
   });
+  return analysis
+}
+
+function serviceComputeLuscher8 (exam) {
+  console.log("exam.serviceComputeLuscher8");
+  const testColors = {
+    '#999999': { id: 0, name: "gris" },
+    '#007FFF': { id: 1, name: "bleu" },
+    '#2A9248': { id: 2, name: "foret" },
+    '#FF0000': { id: 3, name: "rouge" },
+    '#FFFF00': { id: 4, name: "jaune" },
+    '#BF00BF': { id: 5, name: "pourpre" },
+    '#8C4600': { id: 6, name: "marron" },
+    '#000000': { id: 7, name: "noir" },
+  }
+  let analysis = {
+    sequences: {
+      list: [],
+      terms: {}
+    }
+  }
+  
+  Object.keys(exam.results.rows).forEach(row => {
+    // Gather sequences
+    analysis.sequences[row].list = exam.results.rows[row].sort(compareTiles).map(tile => {
+      return testColors[tile.color].id
+    })
+    // Build terms
+    analysis.sequences[row].terms = {
+      preference: [
+        exam.sequences[row].list[0],
+        exam.sequences[row].list[1]
+      ],
+      sympathic: [
+        exam.sequences[row].list[2],
+        exam.sequences[row].list[3]
+      ],
+      indifference: [
+        exam.sequences[row].list[4],
+        exam.sequences[row].list[5]
+      ],
+      rejection: [
+        exam.sequences[row].list[6],
+        exam.sequences[row].list[7]
+      ],
+      fifth: [
+        exam.sequences[row].list[0],
+        exam.sequences[row].list[7]
+      ],
+    }
+  });
+  function compareTiles(a, b) {
+    let aDate = new Date(a.time)
+    let bDate = new Date(b.time)
+    return aDate - bDate
+  }
+
   return analysis
 }
