@@ -115,13 +115,14 @@ function serviceComputeLuscher8 (exam) {
     '#000000': { id: 7, name: "noir" },
   }
   let analysis = {
-    sequences: {
-      list: [],
-      terms: {}
-    }
+    sequences: []
   }
   
   Object.keys(exam.results.rows).forEach(row => {
+    analysis.sequences[row] = {
+      list: [],
+      terms: {}
+    }
     // Gather sequences
     let rowValues = Object.values(exam.results.rows[row].cols)
     analysis.sequences[row].list = rowValues.sort(compareTiles).map(tile => {
