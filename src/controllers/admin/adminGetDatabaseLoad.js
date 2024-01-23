@@ -27,7 +27,7 @@ module.exports = adminGetObjectCount = (req, res, next) => {
   User.aggregate([
     {
       $group: {
-        type: '$type',
+        _id: '$type',
         count: { $sum: 1 }
       }
     }
@@ -39,7 +39,7 @@ module.exports = adminGetObjectCount = (req, res, next) => {
           Exam.aggregate([
             {
               $group: {
-                type: '$type',
+                _id: '$type',
                 count: { $sum: 1 }
               }
             }
