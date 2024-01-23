@@ -24,28 +24,26 @@ module.exports = adminGetObjectCount = (req, res, next) => {
   }
 
   // User.count() // count without break down
-  /*User.aggregate([
+  User.aggregate([
     {
       $group: {
-        _id: '$type',
+        type: '$type',
         count: { $sum: 1 }
       }
     }
-  ])*/ // count with break down
-  User.aggregate().sortByCount("type")
+  ]) // count with break down
     .then((users) => {
       Patient.count()
         .then((patients) => {
           // Exam.count() // count without break down
-          /*Exam.aggregate([
+          Exam.aggregate([
             {
               $group: {
-                _id: '$type',
+                type: '$type',
                 count: { $sum: 1 }
               }
             }
-          ])*/ // count with break down
-          Exam.aggregate().sortByCount("type")
+          ]) // count with break down
             .then((exams) => {
               Setting.count()
                 .then((settings) => {
