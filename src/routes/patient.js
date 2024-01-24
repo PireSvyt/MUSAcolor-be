@@ -2,14 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
+const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
 const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
 
 const patientCreate = require("../controllers/patient/patientCreate.js");
 const patientSave = require("../controllers/patient/patientSave.js");
 //const patientGetOne = require("../controllers/patient/patientGetOne.js");
 const patientGetMine = require("../controllers/patient/patientGetMine.js");
-//const patientGetAll = require("../controllers/patient/patientGetAll.js");
-//const patientDelete = require("../controllers/patient/patientDelete.js");
+const patientGetAll = require("../controllers/patient/patientGetAll.js");
+const patientDelete = require("../controllers/patient/patientDelete.js");
 const patientDeleteMine = require("../controllers/patient/patientDeleteMine.js");
 
 router.post(
@@ -28,7 +29,7 @@ router.post(
 router.get(
   "/v1/:patientid",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  adminAuthenticate,
   patientGetOne,
 );
 */
@@ -38,20 +39,18 @@ router.get(
   authAuthenticateAsPractician,
   patientGetMine,
 );
-/*
 router.get(
   "/v1",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  adminAuthenticate,
   patientGetAll,
 );
 router.delete(
   "/v1/:patientid",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  adminAuthenticate,
   patientDelete,
 );
-*/
 router.post(
   "/v1/delete",
   authAuthenticate,
