@@ -24,6 +24,7 @@ module.exports = authSignIn = (req, res, next) => {
   * auth.signin.error.onpasswordcompare
   * auth.signin.error.statussignedup
   * auth.signin.error.statusunknown
+  * auth.signin.error.toomanyattempts
   
   */
 
@@ -49,45 +50,78 @@ module.exports = authSignIn = (req, res, next) => {
           type: "auth.signin.error.notfound",
         });
       } else {
-        let attemptPassword = req.body.password;
-        if (req.body.encryption === true) {
-          attemptPassword = CryptoJS.AES.decrypt(
-            attemptPassword,
-            process.env.ENCRYPTION_KEY,
-          ).toString(CryptoJS.enc.Utf8);
+        // Chech attempts
+        if (user.signinattempts === undefined) {
+          user.signinattempts = []
         }
-        bcrypt
-          .compare(attemptPassword, user.password)
-          .then((valid) => {
-            if (!valid) {
-              return res.status(401).json({
-                type: "auth.signin.error.invalidpassword",
+        let attemptStatus = attemptsMeetThreshold(user.signinattempts)
+        if (attemptStatus.meetsThreshold) {
+          // Check password
+          let attemptPassword = req.body.password;
+          if (req.body.encryption === true) {
+            attemptPassword = CryptoJS.AES.decrypt(
+              attemptPassword,
+              process.env.ENCRYPTION_KEY,
+            ).toString(CryptoJS.enc.Utf8);
+          }
+          bcrypt
+            .compare(attemptPassword, user.password)
+            .then((valid) => {
+              if (!valid) {
+                // Account for attempt
+                user.signinattempts.push({
+                  date: now()
+                })
+                user.save()
+                .then(() => {
+                  console.log("auth.signin.error.invalidpassword attempt accounted");
+                  return res.status(401).json({
+                    type: "auth.signin.error.invalidpassword",
+                  });
+                })
+                .catch((error) => {
+                  console.log("auth.signin.error.onaccountforattempt");
+                  console.log(error);
+                  return res.status(400).json({
+                    type: "auth.signin.error.onaccountforattempt",
+                    error: error,
+                  });
+                });
+              } else {
+                // Grant access
+                return res.status(200).json({
+                  type: "auth.signin.success",
+                  data: {
+                    token: jwt.sign(
+                      {
+                        userid: user.userid,
+                        type: user.type,
+                      },
+                      process.env.JWT_SECRET,
+                      {
+                        expiresIn: "72h",
+                      },
+                    ),
+                  },
+                });
+              }
+            })
+            .catch((error) => {
+              console.log("auth.signin.error.onpasswordcompare", error);
+              return res.status(500).json({
+                type: "auth.signin.error.onpasswordcompare",
+                error: error,
               });
-            } else {
-              return res.status(200).json({
-                type: "auth.signin.success",
-                data: {
-                  token: jwt.sign(
-                    {
-                      userid: user.userid,
-                      type: user.type,
-                    },
-                    process.env.JWT_SECRET,
-                    {
-                      expiresIn: "72h",
-                    },
-                  ),
-                },
-              });
-            }
-          })
-          .catch((error) => {
-            console.log("auth.signin.error.onpasswordcompare", error);
-            return res.status(500).json({
-              type: "auth.signin.error.onpasswordcompare",
-              error: error,
             });
+        } else {
+          // Deny attempt
+          return res.status(404).json({
+            type: "auth.signin.error.abovethreshold",
+            data: {
+              thresholddate: attemptStatus.thresholdDate
+            }
           });
+        }
       }
     })
     .catch((error) => {
@@ -98,3 +132,26 @@ module.exports = authSignIn = (req, res, next) => {
       });
     });
 };
+
+function attemptsMeetThreshold (attempts) {
+  let meetsThreshold = true
+  let thresholdDate = now()
+
+  // Filter attempts
+  let threshold = {
+    attempts: 5, // attempts per 
+    duration: 1 // minutes
+  }
+  var diffMinutes = Date.setMinutes(threshold.duration, 0, 0)
+  let thresholdedAttempts = attempts.filter(attempt => attempt.date > now() - diffMinutes)
+  
+  // Check threshold
+  if (thresholdedAttempts.length >= threshold.attempts) {
+    meetsThreshold = false
+    thresholdDate = now() + diffMinutes
+  }
+  return {
+    meetsThreshold: meetsThreshold,
+    thresholdDate: thresholdDate
+  }
+}
