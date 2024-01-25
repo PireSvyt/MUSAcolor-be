@@ -69,7 +69,7 @@ module.exports = authSignIn = (req, res, next) => {
                 if (user.signinattempts === undefined) {
                   user.signinattempts = [Date.now()]
                 } else {
-                  user.signinattempts.push(Date.now())
+                  user.signinattempts = [...user.signinattempts].push(Date.now())
                 }
                 console.log("user.signinattempts", user.signinattempts)
                 user
