@@ -70,7 +70,7 @@ module.exports = authSignIn = (req, res, next) => {
               if (!valid) {
                 // Account for attempt
                 user.signinattempts.push({
-                  date: now()
+                  date: Date.now()
                 })
                 user.save()
                 .then(() => {
@@ -135,7 +135,7 @@ module.exports = authSignIn = (req, res, next) => {
 
 function attemptsMeetThreshold (attempts) {
   let meetsThreshold = true
-  let thresholdDate = now()
+  let thresholdDate = Date.now()
 
   // Filter attempts
   let threshold = {
@@ -143,12 +143,12 @@ function attemptsMeetThreshold (attempts) {
     duration: 1 // minutes
   }
   var diffMinutes = Date.setMinutes(threshold.duration, 0, 0)
-  let thresholdedAttempts = attempts.filter(attempt => attempt.date > now() - diffMinutes)
+  let thresholdedAttempts = attempts.filter(attempt => attempt.date > Date.now() - diffMinutes)
   
   // Check threshold
   if (thresholdedAttempts.length >= threshold.attempts) {
     meetsThreshold = false
-    thresholdDate = now() + diffMinutes
+    thresholdDate = Date.now() + diffMinutes
   }
   return {
     meetsThreshold: meetsThreshold,
