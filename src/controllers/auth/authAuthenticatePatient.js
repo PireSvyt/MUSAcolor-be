@@ -21,17 +21,18 @@ module.exports = authAuthenticatePatient = (req, res, next) => {
   } else if (req.augmented.user.type === "practician") {
     // Assess patient is one of my patients
     if (req.body.patientid !== undefined) {
-            if (req.augmented.user.patients.filter(patient => patient.patientid === req.body.patientid).length > 0) {
-                next()
-            } else {
-                return res.status(403).json({
-                    type: "auth.authenticatepatient.error.isnotpatient",
-                });
-            }
+      console.log("req.augmented", req.augmented)
+      if (req.augmented.user.patients.filter(patient => patient.patientid === req.body.patientid).length > 0) {
+          next()
+      } else {
+          return res.status(403).json({
+              type: "auth.authenticatepatient.error.isnotpatient",
+          });
+      }
     } else {
-        return res.status(404).json({
-            type: "auth.authenticatepatient.error.missingpatientid",
-        });
+      return res.status(404).json({
+          type: "auth.authenticatepatient.error.missingpatientid",
+      });
     }
   }
 };
