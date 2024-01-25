@@ -11,8 +11,18 @@ const settingDelete = require("../controllers/setting/settingDelete.js");
 
 router.post("/v1/create", authAuthenticate, adminAuthenticate, settingCreate);
 router.post("/v1/save", authAuthenticate, adminAuthenticate, settingSave);
-router.get("/v1/:key", authAuthenticate, settingGetOne);
-router.get("/v1", authAuthenticate, adminAuthenticate, settingGetAll);
-router.delete("/v1/:key", authAuthenticate, adminAuthenticate, settingDelete);
+router.post("/v1/getone/:key", authAuthenticate, settingGetOne);
+router.post(
+    "/v1/getall", 
+    authAuthenticate, 
+    adminAuthenticate, 
+    settingGetAll
+);
+router.post(
+    "/v1/delete/:key", 
+    authAuthenticate, 
+    adminAuthenticate, 
+    settingDelete
+);
 
 module.exports = router;
