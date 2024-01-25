@@ -71,6 +71,7 @@ module.exports = authSignIn = (req, res, next) => {
                 } else {
                   user.signinattempts.push(Date.now())
                 }
+                console.log("user.signinattempts", user.signinattempts)
                 user
                 .save()
                 .then(() => {
