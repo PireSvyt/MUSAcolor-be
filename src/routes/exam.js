@@ -4,6 +4,7 @@ const router = express.Router();
 const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
 const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
 const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
+const authAuthenticateMyPractice = require("../controllers/auth/authAuthenticateMyPractice.js");
 
 const examCreate = require("../controllers/exam/examCreate.js");
 //const examSave = require("../controllers/exam/examSave.js");
@@ -17,6 +18,7 @@ router.post(
   "/v1/create",
   authAuthenticate,
   authAuthenticateAsPractician,
+  authAuthenticateMyPractice,
   examCreate,
 );
 /*
@@ -37,10 +39,11 @@ router.post(
   "/v1/getanalysis",
   authAuthenticate,
   authAuthenticateAsPractician,
+  authAuthenticateMyPractice,
   examGetAnalysis,
 );
-router.get(
-  "/v1",
+router.post(
+  "/v1/getall",
   authAuthenticate,
   adminAuthenticate,
   examGetAll,
@@ -57,6 +60,7 @@ router.post(
   "/v1/delete",
   authAuthenticate,
   authAuthenticateAsPractician,
+  authAuthenticateMyPractice,
   examDeleteMine,
 );
 

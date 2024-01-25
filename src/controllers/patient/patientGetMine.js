@@ -26,7 +26,7 @@ module.exports = patientGetMine = (req, res, next) => {
   Patient.aggregate([
     {
       $match: { 
-        patientid: req.params.patientid, 
+        patientid: req.body.patientid, 
         practicianid: decodedToken.userid
       },
     },
