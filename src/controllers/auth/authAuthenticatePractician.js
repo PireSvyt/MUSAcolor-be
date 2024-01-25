@@ -19,7 +19,7 @@ module.exports = authAuthenticatePractician = (req, res, next) => {
 
   User.aggregate([
     {
-      $match: { userid: req.augmented.userid },
+      $match: { userid: req.augmented.user.userid },
     },
     {
       $lookup: {
