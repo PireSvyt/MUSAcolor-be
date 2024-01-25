@@ -51,9 +51,6 @@ module.exports = authSignIn = (req, res, next) => {
         });
       } else {
         // Chech attempts
-        if (user.signinattempts === undefined) {
-          user.signinattempts = []
-        }
         let attemptStatus = attemptsMeetThreshold(user.signinattempts)
         if (attemptStatus.meetsThreshold) {
           // Check password
@@ -69,9 +66,15 @@ module.exports = authSignIn = (req, res, next) => {
             .then((valid) => {
               if (!valid) {
                 // Account for attempt
-                user.signinattempts.push({
-                  date: Date.now()
-                })
+                if (user.signinattempts === undefined) {
+                  user.signinattempts = [{
+                    date: Date.now()
+                  }]
+                } else {
+                  user.signinattempts.push({
+                    date: Date.now()
+                  })
+                }
                 user.save()
                 .then(() => {
                   console.log("auth.signin.error.invalidpassword attempt accounted");
