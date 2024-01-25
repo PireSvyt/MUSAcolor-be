@@ -67,13 +67,9 @@ module.exports = authSignIn = (req, res, next) => {
               if (!valid) {
                 // Account for attempt
                 if (user.signinattempts === undefined) {
-                  user.signinattempts = [{
-                    date: Date.now()
-                  }]
+                  user.signinattempts = [Date.now()]
                 } else {
-                  user.signinattempts.push({
-                    date: Date.now()
-                  })
+                  user.signinattempts.push(Date.now())
                 }
                 user
                 .save()
