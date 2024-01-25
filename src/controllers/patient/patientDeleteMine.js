@@ -1,5 +1,4 @@
 require("dotenv").config();
-const jwt_decode = require("jwt-decode");
 const Patient = require("../../models/Patient.js");
 
 module.exports = patientDeleteMine = (req, res, next) => {
@@ -18,14 +17,9 @@ module.exports = patientDeleteMine = (req, res, next) => {
     console.log("patient.deletemine");
   }
 
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
-
   Patient.deleteOne({ 
     patientid: req.body.patientid,
-    practicianid: decodedToken.userid
+    practicianid: req.augmented.user.userid
   })
     .then((deleteOutcome) => {
       if (

@@ -1,5 +1,4 @@
 require("dotenv").config();
-const jwt_decode = require("jwt-decode");
 const User = require("../../models/User.js");
 
 module.exports = userGetOne = (req, res, next) => {
@@ -18,14 +17,9 @@ module.exports = userGetOne = (req, res, next) => {
     console.log("user.getme");
   }
 
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
-
   User.aggregate([
     {
-      $match: { userid: decodedToken.userid },
+      $match: { userid: req.augmented.user.userid },
     },
     {
       $lookup: {

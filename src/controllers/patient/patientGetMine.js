@@ -1,5 +1,4 @@
 require("dotenv").config();
-const jwt_decode = require("jwt-decode");
 const Patient = require("../../models/Patient.js");
 
 module.exports = patientGetMine = (req, res, next) => {
@@ -17,17 +16,12 @@ module.exports = patientGetMine = (req, res, next) => {
   if (process.env.DEBUG) {
     console.log("patient.getmine");
   }
-
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
   
   Patient.aggregate([
     {
       $match: { 
         patientid: req.body.patientid, 
-        practicianid: decodedToken.userid
+        practicianid: req.augmented.user.userid
       },
     },
     {
