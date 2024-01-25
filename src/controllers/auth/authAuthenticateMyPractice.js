@@ -32,7 +32,7 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
       $lookup: {
         from: "patients",
         foreignField: "practicianid",
-        localField: "practicianid",
+        localField: "userid",
         as: "patients",
         pipeline: [
           {
@@ -63,7 +63,7 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
       } else if (user.type === "practician") {
         // Assess patient is one of my patients
         if (req.body.patientid !== undefined) {
-            if (user.patients.includes(req.body.patientid)) {
+            if (user.patients.filter(patient => patient.patientid === req.body.patientid).length > 0) {
                 next()
             } else {
                 return res.status(403).json({
@@ -77,7 +77,7 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
                 Exam.findOne({ examid: req.body.examid })
                 .then((exam) => {
                     if (exam !== undefined) {
-                        if (user.patients.includes(exam.patientid)) {
+                        if (user.patients.filter(patient => patient.patientid === exam.patientid).length > 0) {
                             next()
                         } else {
                             return res.status(403).json({
