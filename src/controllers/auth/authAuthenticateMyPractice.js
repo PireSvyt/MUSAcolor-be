@@ -31,8 +31,8 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
     {
       $lookup: {
         from: "patients",
-        foreignField: "patientid",
-        localField: "patientid",
+        foreignField: "practicianid",
+        localField: "practicianid",
         as: "patients",
         pipeline: [
           {
@@ -55,7 +55,7 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
   .then((users) => {
     if (users.length === 1) {
       let user = users[0];
-      console.log("auth.authenticatemypractice", user)
+      console.log("user", user)
       console.log("req.body.patientid", req.body.patientid)
       console.log("req.body.examid", req.body.examid)
       if (user.type === "admin") {
