@@ -36,8 +36,12 @@ module.exports = authAuthenticate = (req, res, next) => {
           error: err,
         });
       }
-      req.augmented.decodedToken = decodedToken;
-      req.augmented.user.userid = decodedToken.userid;
+      req.augmented = {
+        decodedToken: decodedToken,
+        user: {
+          userid: decodedToken.userid
+        }
+      }
       next();
     });
   }

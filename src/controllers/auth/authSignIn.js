@@ -75,7 +75,8 @@ module.exports = authSignIn = (req, res, next) => {
                     date: Date.now()
                   })
                 }
-                user.save()
+                user
+                .save()
                 .then(() => {
                   console.log("auth.signin.error.invalidpassword attempt accounted");
                   return res.status(401).json({
