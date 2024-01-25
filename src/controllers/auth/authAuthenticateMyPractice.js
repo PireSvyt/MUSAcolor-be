@@ -11,6 +11,7 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
   * auth.authenticatemypractice.error.notallowed
   * auth.authenticatemypractice.error.notfound
   * auth.authenticatemypractice.error.erroronfind
+  * auth.authenticatemypractice.error.missinginputs
   
   */
 
@@ -54,6 +55,9 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
   .then((users) => {
     if (users.length === 1) {
       let user = users[0];
+      console.log("auth.authenticatemypractice", user)
+      console.log("req.body.patientid", req.body.patientid)
+      console.log("req.body.examid", req.body.examid)
       if (user.type === "admin") {
         next();
       } else if (user.type === "practician") {
@@ -94,6 +98,10 @@ module.exports = authAuthenticateMyPractice = (req, res, next) => {
                       type: "auth.authenticatemypractice.error.erroronfind",
                       error: error,
                     });
+                });
+            } else {
+                return res.status(403).json({
+                    type: "auth.authenticatemypractice.error.missinginputs",
                 });
             }
         }
