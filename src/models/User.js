@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema(
     login: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     signinattempts:  [{
-      date : Date,
+      type : Date,
        }],
     passwordtoken: { type: String },
     //association: { type: String },

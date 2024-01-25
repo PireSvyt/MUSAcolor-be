@@ -150,7 +150,7 @@ function attemptsMeetThreshold (attempts) {
     }
     var diffMinutes = new Date
     diffMinutes.setMinutes(threshold.duration, 0, 0)
-    let thresholdedAttempts = attempts.filter(attempt => attempt.date > Date.now() - diffMinutes)
+    let thresholdedAttempts = attempts.filter(attempt => attempt > Date.now() - diffMinutes)
     
     // Check threshold
     if (thresholdedAttempts.length >= threshold.attempts) {
