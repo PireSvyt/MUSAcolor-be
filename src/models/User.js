@@ -13,7 +13,9 @@ const userSchema = mongoose.Schema(
     //patientid: { type: String }, // only for patients
     login: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    signinattempts: [], // attempt: date
+    signinattempts:  [{
+      date : Date,
+       }],
     passwordtoken: { type: String },
     //association: { type: String },
     //activation: { type: String },
