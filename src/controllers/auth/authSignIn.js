@@ -68,7 +68,7 @@ module.exports = authSignIn = (req, res, next) => {
                 // Account for attempt
                 let newAttempt = {
                   type: 'sign in attempt',
-                  date: Date.now()
+                  date: new Date()
                 }
                 if (user.history === undefined) {
                   user.history = {}
@@ -156,7 +156,7 @@ function attemptsMeetThreshold (attempts) {
       }
       var diffMinutes = new Date
       diffMinutes.setMinutes(threshold.duration, 0, 0)
-      let thresholdedAttempts = Object.keys(attempts).filter(attempt => attempt > (thresholdDate - diffMinutes))
+      let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > (thresholdDate - diffMinutes))
       
       // Check threshold
       if (thresholdedAttempts.length >= threshold.attempts) {
