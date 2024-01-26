@@ -78,7 +78,7 @@ module.exports = authSignIn = (req, res, next) => {
                   history[newAttempt.date] = newAttempt
                   user.history = history
                 }
-                console.log("user.history", user.history)
+                //console.log("user.history", user.history)
                 user
                 .save()
                 .then(() => {
@@ -155,18 +155,18 @@ function attemptsMeetThreshold (attempts) {
 
   if (attempts !== undefined) {
       // Filter attempts
-      console.log("rightnow", rightnow)
+      //console.log("rightnow", rightnow)
       var thresholdDate = new Date(rightnow.getTime() - threshold.duration*60000)
-      console.log("thresholdDate", thresholdDate)
+      //console.log("thresholdDate", thresholdDate)
       let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > thresholdDate)
-      console.log("thresholdedAttempts", thresholdedAttempts)
+      //console.log("thresholdedAttempts", thresholdedAttempts)
       
       // Check threshold
       if (thresholdedAttempts.length >= threshold.attempts) {
           meetsThreshold = false
           thresholdDate = new Date(rightnow.getTime() + threshold.duration*60000)
       }
-      console.log("thresholdDate", thresholdDate)
+      //console.log("thresholdDate", thresholdDate)
   }
 
   return {
