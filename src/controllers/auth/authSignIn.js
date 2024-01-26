@@ -155,9 +155,8 @@ function attemptsMeetThreshold (attempts) {
 
   if (attempts !== undefined) {
       // Filter attempts
-      var diffMinutes = new Date()
-      diffMinutes.setMinutes(threshold.duration, 0, 0)
       console.log("now", thresholdDate)
+      var diffMinutes = new Date(thresholdDate.getTime() + threshold.duration*60000)
       console.log("diffMinutes", diffMinutes)
       let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > (thresholdDate - diffMinutes))
       console.log("thresholdedAttempts", thresholdedAttempts)
