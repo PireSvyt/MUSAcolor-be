@@ -146,7 +146,7 @@ module.exports = authSignIn = (req, res, next) => {
 function attemptsMeetThreshold (attempts) {
   //console.log("attemptsMeetThreshold", attempts)
   let meetsThreshold = true
-  let thresholdDate = new Date()
+  let rightnow = new Date()
   
   let threshold = {
     attempts: 5, // attempts per 
@@ -155,16 +155,16 @@ function attemptsMeetThreshold (attempts) {
 
   if (attempts !== undefined) {
       // Filter attempts
-      console.log("now", thresholdDate)
-      var diffMinutes = new Date(thresholdDate.getTime() + threshold.duration*60000)
-      console.log("diffMinutes", diffMinutes)
-      let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > (thresholdDate - diffMinutes))
+      console.log("rightnow", rightnow)
+      var thresholdDate = new Date(rightnow.getTime() - threshold.duration*60000)
+      console.log("thresholdDate", thresholdDate)
+      let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > thresholdDate)
       console.log("thresholdedAttempts", thresholdedAttempts)
       
       // Check threshold
       if (thresholdedAttempts.length >= threshold.attempts) {
           meetsThreshold = false
-          thresholdDate += diffMinutes
+          thresholdDate = new Date(rightnow.getTime() + threshold.duration*60000)
       }
       console.log("thresholdDate", thresholdDate)
   }
