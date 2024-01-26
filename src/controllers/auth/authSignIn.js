@@ -147,22 +147,27 @@ function attemptsMeetThreshold (attempts) {
   //console.log("attemptsMeetThreshold", attempts)
   let meetsThreshold = true
   let thresholdDate = new Date()
+  
+  let threshold = {
+    attempts: 5, // attempts per 
+    duration: 1 // minutes
+  }
 
   if (attempts !== undefined) {
       // Filter attempts
-      let threshold = {
-          attempts: 5, // attempts per 
-          duration: 1 // minutes
-      }
       var diffMinutes = new Date()
       diffMinutes.setMinutes(threshold.duration, 0, 0)
+      console.log("now", thresholdDate)
+      console.log("diffMinutes", diffMinutes)
       let thresholdedAttempts = Object.values(attempts).filter(attempt => attempt.date > (thresholdDate - diffMinutes))
+      console.log("thresholdedAttempts", thresholdedAttempts)
       
       // Check threshold
       if (thresholdedAttempts.length >= threshold.attempts) {
           meetsThreshold = false
           thresholdDate += diffMinutes
       }
+      console.log("thresholdDate", thresholdDate)
   }
 
   return {
