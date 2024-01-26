@@ -97,7 +97,7 @@ module.exports = authSignIn = (req, res, next) => {
                 });
               } else {
                 // Clear previous attempts?
-                
+
                 // Grant access
                 return res.status(200).json({
                   type: "auth.signin.success",
@@ -146,7 +146,7 @@ module.exports = authSignIn = (req, res, next) => {
 function attemptsMeetThreshold (attempts) {
   //console.log("attemptsMeetThreshold", attempts)
   let meetsThreshold = true
-  let thresholdDate = Date.now()
+  let thresholdDate = new Date
 
   if (attempts !== undefined) {
       // Filter attempts
@@ -156,7 +156,7 @@ function attemptsMeetThreshold (attempts) {
       }
       var diffMinutes = new Date
       diffMinutes.setMinutes(threshold.duration, 0, 0)
-      let thresholdedAttempts = Object.keys(attempts).filter(attempt => attempt > (Date.now() - diffMinutes))
+      let thresholdedAttempts = Object.keys(attempts).filter(attempt => attempt > (thresholdDate - diffMinutes))
       
       // Check threshold
       if (thresholdedAttempts.length >= threshold.attempts) {
