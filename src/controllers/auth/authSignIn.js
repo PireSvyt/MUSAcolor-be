@@ -51,7 +51,7 @@ module.exports = authSignIn = (req, res, next) => {
         });
       } else {
         // Chech attempts
-        let attemptStatus = attemptsMeetThreshold(user.signinattempts)
+        let attemptStatus = attemptsMeetThreshold(user.history)
         if (attemptStatus.meetsThreshold) {
           // Check password
           let attemptPassword = req.body.password;
@@ -66,12 +66,13 @@ module.exports = authSignIn = (req, res, next) => {
             .then((valid) => {
               if (!valid) {
                 // Account for attempt
-                if (user.signinattempts === undefined) {
-                  user.signinattempts = [Date.now()]
+                if (user.history === undefined) {
+                  user.history = {}
+                  user.history[Date.now()] = 'sign in attempt'
                 } else {
-                  user.signinattempts = [...user.signinattempts].push(Date.now())
+                  user.history[Date.now()] = 'sign in attempt'
                 }
-                console.log("user.signinattempts", user.signinattempts)
+                console.log("user.history", user.history)
                 user
                 .save()
                 .then(() => {
@@ -135,29 +136,29 @@ module.exports = authSignIn = (req, res, next) => {
 };
 
 function attemptsMeetThreshold (attempts) {
-  console.log("attemptsMeetThreshold", attempts)
+  //console.log("attemptsMeetThreshold", attempts)
   let meetsThreshold = true
   let thresholdDate = Date.now()
 
   if (attempts !== undefined) {
-    // Filter attempts
-    let threshold = {
-      attempts: 5, // attempts per 
-      duration: 1 // minutes
-    }
-    var diffMinutes = new Date
-    diffMinutes.setMinutes(threshold.duration, 0, 0)
-    let thresholdedAttempts = attempts.filter(attempt => attempt > Date.now() - diffMinutes)
-    
-    // Check threshold
-    if (thresholdedAttempts.length >= threshold.attempts) {
-      meetsThreshold = false
-      thresholdDate = Date.now() + diffMinutes
-    }
+      // Filter attempts
+      let threshold = {
+          attempts: 5, // attempts per 
+          duration: 1 // minutes
+      }
+      var diffMinutes = new Date
+      diffMinutes.setMinutes(threshold.duration, 0, 0)
+      let thresholdedAttempts = Object.keys(attempts).filter(attempt => attempt > (Date.now() - diffMinutes))
+      
+      // Check threshold
+      if (thresholdedAttempts.length >= threshold.attempts) {
+          meetsThreshold = false
+          thresholdDate += diffMinutes
+      }
   }
 
   return {
-    meetsThreshold: meetsThreshold,
-    thresholdDate: thresholdDate
+      meetsThreshold: meetsThreshold,
+      thresholdDate: thresholdDate
   }
 }
