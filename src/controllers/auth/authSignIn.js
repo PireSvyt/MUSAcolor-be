@@ -70,7 +70,9 @@ module.exports = authSignIn = (req, res, next) => {
                   user.history = {}
                   user.history[Date.now()] = 'sign in attempt'
                 } else {
-                  user.history[Date.now()] = 'sign in attempt'
+                  let history = {...user.history}
+                  history[Date.now()] = 'sign in attempt'
+                  user.history = history
                 }
                 console.log("user.history", user.history)
                 user
