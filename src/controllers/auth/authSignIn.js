@@ -66,12 +66,16 @@ module.exports = authSignIn = (req, res, next) => {
             .then((valid) => {
               if (!valid) {
                 // Account for attempt
+                let newAttempt = {
+                  type: 'sign in attempt',
+                  date: Date.now()
+                }
                 if (user.history === undefined) {
                   user.history = {}
-                  user.history[Date.now()] = 'sign in attempt'
+                  user.history[newAttempt.date] = newAttempt
                 } else {
                   let history = {...user.history}
-                  history[Date.now()] = 'sign in attempt'
+                  history[newAttempt.date] = newAttempt
                   user.history = history
                 }
                 console.log("user.history", user.history)
@@ -92,6 +96,8 @@ module.exports = authSignIn = (req, res, next) => {
                   });
                 });
               } else {
+                // Clear previous attempts?
+                
                 // Grant access
                 return res.status(200).json({
                   type: "auth.signin.success",
