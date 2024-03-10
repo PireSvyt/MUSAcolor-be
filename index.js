@@ -7,6 +7,7 @@ const authRoutes = require("./src/routes/auth.js");
 const userRoutes = require("./src/routes/user.js");
 const patientRoutes = require("./src/routes/patient.js");
 const examRoutes = require("./src/routes/exam.js");
+const homeworkRoutes = require("./src/routes/homework.js");
 const adminRoutes = require("./src/routes/admin.js");
 const settingRoutes = require("./src/routes/setting.js");
 
@@ -35,6 +36,7 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
 app.use("/exam", examRoutes);
+app.use("/homework", homeworkRoutes);
 
 // Landing
 app.get("/", (req, res) => {

@@ -1,0 +1,26 @@
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
+
+if (process.env.MONGOOSE_DEBUG === "TRUE") {
+  mongoose.set("debug", true);
+}
+
+const homeworkSchema = mongoose.Schema(
+  {
+    schema: { type: String },
+    homeworkid: { type: String, required: true, unique: true },
+    practicianid: { type: String, required: true },
+    editionDate: { type: Date },
+    exercises: [{
+        exerciseid: { type: String, required: true },
+        type: { type: String, required: true },
+        position: { type: Number },
+        data: { type: Object },
+      }]
+  },
+  { strict: true },
+);
+
+homeworkSchema.plugin(uniqueValidator);
+
+module.exports = mongoose.model("Homework", homeworkSchema);
