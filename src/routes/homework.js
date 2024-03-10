@@ -7,7 +7,7 @@ const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePat
 
 const homeworkCreate = require("../controllers/homework/homeworkCreate.js");
 const homeworkGetOne = require("../controllers/homework/homeworkGetOne.js");
-const homeworkSave = require("../controllers/homework/homeworkSave.js");
+//const homeworkSave = require("../controllers/homework/homeworkSave.js");
 const homeworkDelete = require("../controllers/homework/homeworkDelete.js");
 
 router.post(
@@ -17,16 +17,16 @@ router.post(
   authAuthenticatePatient,
   homeworkCreate,
 );
+/*
 router.post(
   "/v1/save",
   authAuthenticate,
   authAuthenticatePractician,
   homeworkSave,
 );
+*/
 router.get(
   "/v1/:homeworkid",
-  authAuthenticate,
-  authAuthenticatePractician,
   homeworkGetOne,
 );
 router.post(
