@@ -5,10 +5,10 @@ if (process.env.MONGOOSE_DEBUG === "TRUE") {
   mongoose.set("debug", true);
 }
 
-const homeworkSchema = mongoose.Schema(
+const prescriptionSchema = mongoose.Schema(
   {
     schema: { type: String },
-    homeworkid: { type: String, required: true, unique: true },
+    prescriptionid: { type: String, required: true, unique: true },
     practicianid: { type: String, required: true },
     editionDate: { type: Date },
     exercises: [{
@@ -21,6 +21,6 @@ const homeworkSchema = mongoose.Schema(
   { strict: true },
 );
 
-homeworkSchema.plugin(uniqueValidator);
+prescriptionSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model("Homework", homeworkSchema);
+module.exports = mongoose.model("Prescription", prescriptionSchema);
