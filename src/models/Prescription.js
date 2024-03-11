@@ -15,6 +15,7 @@ const prescriptionSchema = mongoose.Schema(
         exerciseid: { type: String, required: true },
         type: { type: String, required: true },
         position: { type: Number },
+        duration: { type: Number },
         data: { type: Object },
       }]
   },
