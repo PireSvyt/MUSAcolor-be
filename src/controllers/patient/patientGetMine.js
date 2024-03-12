@@ -45,15 +45,14 @@ module.exports = patientGetMine = (req, res, next) => {
     {
       $lookup: {
         from: "prescriptions",
-        foreignField: "prescriptionid",
-        localField: "prescriptionid",
+        foreignField: "patientid",
+        localField: "patientid",
         as: "prescriptions",
         pipeline: [
           {
             $project: {
               _id: 0,
               prescriptionid: 1,
-              type: 1,
               editionDate: 1,
               exercises: 1
             },

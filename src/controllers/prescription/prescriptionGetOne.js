@@ -17,7 +17,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
     console.log("prescription.getone");
   }
 
-  Prescription.findOne({ prescriptionid: req.params.prescriptionid })
+  Prescription.findOne({ prescriptionid: req.params.prescriptionid }, 'editionDate exercises')
     .then((prescription) => {
       if (prescription !== undefined) {
         console.log("prescription.get.success");
