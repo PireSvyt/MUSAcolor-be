@@ -14,7 +14,7 @@ module.exports = prescriptionDelete = (req, res, next) => {
   */
 
   if (process.env.DEBUG) {
-    console.log("prescription.delete");
+    console.log("prescription.delete", req.body);
   }
 
   Prescription.deleteOne({ prescriptionid: req.body.prescriptionid })
