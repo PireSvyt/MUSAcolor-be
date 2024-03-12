@@ -17,7 +17,7 @@ module.exports = prescriptionDelete = (req, res, next) => {
     console.log("prescription.delete");
   }
 
-  Prescription.deleteOne({ prescriptionid: req.params.prescriptionid })
+  Prescription.deleteOne({ prescriptionid: req.body.prescriptionid })
     .then((deleteOutcome) => {
       if (
         deleteOutcome.acknowledged === true &&
