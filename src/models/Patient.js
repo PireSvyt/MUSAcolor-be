@@ -11,7 +11,6 @@ const patientSchema = mongoose.Schema(
     patientid: { type: String, required: true, unique: true },
     practicianid: { type: String, required: true },
     name: { type: String, required: true },
-    prescriptions: [{ type: String, required: true }]
     /*
     firstname: { type: String },
     lastname: { type: String },

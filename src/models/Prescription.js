@@ -10,8 +10,16 @@ const prescriptionSchema = mongoose.Schema(
     schema: { type: String },
     prescriptionid: { type: String, required: true, unique: true },
     practicianid: { type: String, required: true },
+    patientid: { type: String, required: true },
     editionDate: { type: Date },
-    exercises: [{ type: Object }]
+    exercises: [{
+      exerciseid: { type: String, required: true },
+      name: { type: String, required: true },
+      type: { type: String, required: true },
+      position: { type: Number },
+      duration: { type: Number },
+      data: { type: Object },
+    }]
   },
   { strict: true },
 );
