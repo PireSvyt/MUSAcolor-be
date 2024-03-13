@@ -14,6 +14,7 @@ const exerciseSchema = mongoose.Schema(
     name: { type: String, required: true },
     type: { type: String, required: true },
     duration: { type: Number },
+    instructions: { type: String },
     data: { type: Object },
   },
   { strict: true },

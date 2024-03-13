@@ -19,7 +19,7 @@ module.exports = exerciseGetOne = (req, res, next) => {
 
   Exercise.findOne(
     { exerciseid: req.params.exerciseid }, 
-    'exerciseid editionDate name type duration data'
+    'exerciseid editionDate name type duration data instructions'
   )
     .then((exercise) => {
       if (exercise !== undefined) {
