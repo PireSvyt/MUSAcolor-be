@@ -40,11 +40,33 @@ module.exports = userGetOne = (req, res, next) => {
       },
     },
     {
+      $lookup: {
+        from: "exercises",
+        foreignField: "practicianid",
+        localField: "userid",
+        as: "exercises",
+        pipeline: [
+          {
+            $project: {
+              _id: 0,
+              exerciseid: 1,
+              editionDate: 1,
+              name: 1,
+              type: 1,
+              duration: 1,
+              data: 1
+            },
+          },
+        ],
+      },
+    },
+    {
       $project: {
         _id: 0,
         userid: 1,
         type: 1,
         patients: 1,
+        exercises: 1,
       },
     },
   ])

@@ -17,14 +17,65 @@ module.exports = prescriptionGetOne = (req, res, next) => {
     console.log("prescription.getone");
   }
 
-  Prescription.findOne({ prescriptionid: req.params.prescriptionid }, 'editionDate exercises')
+  Prescription.aggregate([
+    {
+      $match: { 
+        prescriptionid: req.params.prescriptionid
+      },
+    },
+    {
+      $lookup: {
+        from: "exercises",
+        foreignField: "exerciseid",
+        localField: "exercises.exerciseid",
+        as: "aggregatedExercises",
+        pipeline: [
+          {
+            $project: {
+              _id: 0,
+              exerciseid: 1,
+              editionDate: 1,
+              name: 1,
+              type: 1,
+              duration: 1,
+              data: 1
+            },
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        editionDate: 1,
+        exercises: 1,
+      },
+    }
+  ])
     .then((prescription) => {
       if (prescription !== undefined) {
         console.log("prescription.get.success");
+        console.log("prescription", prescription);
+        // Repackaging
+        let outcome = {...prescription}
+        let exercises = []
+        prescription.aggregatedExercises.forEach(exercise => {
+          let consoleidatedExercise = {...exercise}
+          // Add notes if any
+          let prescribedExercise = prescription.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)
+          if (prescribedExercise.notes !== undefined) {
+            consoleidatedExercise.notes = prescribedExercise.notes
+          }
+          exercises.push(consoleidatedExercise)
+        })
+        outcome.exercises = exercises
+        delete outcome.aggregatedExercises
+        console.log("exercises", exercises);
+        // Response
         return res.status(200).json({
           type: "prescription.get.success",
           data: {
-            prescription: prescription,
+            prescription: outcome,
           },
         });
       } else {

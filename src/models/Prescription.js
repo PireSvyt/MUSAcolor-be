@@ -14,11 +14,7 @@ const prescriptionSchema = mongoose.Schema(
     editionDate: { type: Date },
     exercises: [{
       exerciseid: { type: String, required: true },
-      name: { type: String, required: true },
-      type: { type: String, required: true },
-      position: { type: Number },
-      duration: { type: Number },
-      data: { type: Object },
+      notes: { type: String },
     }]
   },
   { strict: true },
@@ -27,14 +23,3 @@ const prescriptionSchema = mongoose.Schema(
 prescriptionSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Prescription", prescriptionSchema);
-
-/**
- * exercises: [{
-      exerciseid: { type: String, required: true },
-      name: { type: String, required: true },
-      type: { type: String, required: true },
-      position: { type: Number },
-      duration: { type: Number },
-      data: { type: Object },
-    }]
- */
