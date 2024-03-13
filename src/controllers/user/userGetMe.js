@@ -48,7 +48,7 @@ module.exports = userGetOne = (req, res, next) => {
         pipeline: [
           {
             $project: {
-              _id: 0,
+              _id: 1,
               exerciseid: 1,
               editionDate: 1,
               name: 1,
