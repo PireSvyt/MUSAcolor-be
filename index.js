@@ -6,6 +6,7 @@ const serviceConnectMongoDB = require("./src/database/serviceConnectDatabase.js"
 const authRoutes = require("./src/routes/auth.js");
 const userRoutes = require("./src/routes/user.js");
 const patientRoutes = require("./src/routes/patient.js");
+const exerciseRoutes = require("./src/routes/exercise.js");
 const examRoutes = require("./src/routes/exam.js");
 const prescriptionRoutes = require("./src/routes/prescription.js");
 const adminRoutes = require("./src/routes/admin.js");
@@ -35,6 +36,7 @@ app.use("/setting", settingRoutes);
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
+app.use("/exercise", exerciseRoutes);
 app.use("/exam", examRoutes);
 app.use("/prescription", prescriptionRoutes);
 
