@@ -35,8 +35,6 @@ module.exports = exerciseSave = (req, res, next) => {
     let exerciseToSave = { ...req.body };
     exerciseToSave.practicianid = decodedToken.userid
     exerciseToSave.editionDate = new Date()
-    exerciseToSave = new Exercise(exerciseToSave);
-    console.log("exerciseToSave", exerciseToSave.toObject())
 
     // Save
     Exercise.updateOne({ 
