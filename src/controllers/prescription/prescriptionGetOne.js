@@ -57,12 +57,12 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         console.log("prescription.get.success");
         console.log("prescription", prescription);
         // Repackaging
-        let outcome = {...prescription}
+        let outcome = {...prescription[0]}
         let exercises = []
-        prescription.aggregatedExercises.forEach(exercise => {
+        outcome.aggregatedExercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
           // Add notes if any
-          let prescribedExercise = prescription.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)
+          let prescribedExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)
           if (prescribedExercise.notes !== undefined) {
             consoleidatedExercise.notes = prescribedExercise.notes
           }
