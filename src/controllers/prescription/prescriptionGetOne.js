@@ -64,7 +64,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         outcome.aggregatedExercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
           // Add posology if any
-          let prescribedExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)
+          let prescribedExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
           if (prescribedExercise.posology !== undefined) {
             consoleidatedExercise.posology = prescribedExercise.posology
           }
