@@ -38,7 +38,8 @@ module.exports = prescriptionGetOne = (req, res, next) => {
               name: 1,
               type: 1,
               duration: 1,
-              data: 1
+              instructions: 1,
+              data: 1,
             },
           },
         ],
@@ -49,6 +50,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         _id: 0,
         editionDate: 1,
         exercises: 1,
+        aggregatedExercises: 1
       },
     }
   ])
@@ -61,10 +63,10 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         let exercises = []
         outcome.aggregatedExercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
-          // Add notes if any
+          // Add posology if any
           let prescribedExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)
-          if (prescribedExercise.notes !== undefined) {
-            consoleidatedExercise.notes = prescribedExercise.notes
+          if (prescribedExercise.posology !== undefined) {
+            consoleidatedExercise.posology = prescribedExercise.posology
           }
           exercises.push(consoleidatedExercise)
         })

@@ -14,7 +14,7 @@ const prescriptionSchema = mongoose.Schema(
     editionDate: { type: Date },
     exercises: [{
       exerciseid: { type: String, required: true },
-      notes: { type: String },
+      posology: { type: String },
     }]
   },
   { strict: true },

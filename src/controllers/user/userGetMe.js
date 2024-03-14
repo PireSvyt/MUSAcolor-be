@@ -54,8 +54,8 @@ module.exports = userGetOne = (req, res, next) => {
               name: 1,
               type: 1,
               duration: 1,
+              instructions: 1,
               data: 1,
-              instructions: 1
             },
           },
         ],
