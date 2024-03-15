@@ -35,8 +35,6 @@ module.exports = prescriptionSave = (req, res, next) => {
     let prescriptionToSave = { ...req.body };
     prescriptionToSave.practicianid = decodedToken.userid
     prescriptionToSave.editionDate = new Date()
-    prescriptionToSave = new Prescription(prescriptionToSave);
-    console.log("prescriptionToSave", prescriptionToSave.toObject())
 
     // Save
     Prescription.updateOne({ 
