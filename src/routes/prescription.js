@@ -7,7 +7,7 @@ const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePat
 
 const prescriptionCreate = require("../controllers/prescription/prescriptionCreate.js");
 const prescriptionGetOne = require("../controllers/prescription/prescriptionGetOne.js");
-//const prescriptionSave = require("../controllers/prescription/prescriptionSave.js");
+const prescriptionSave = require("../controllers/prescription/prescriptionSave.js");
 const prescriptionDelete = require("../controllers/prescription/prescriptionDelete.js");
 
 router.post(
@@ -17,14 +17,12 @@ router.post(
   authAuthenticatePatient,
   prescriptionCreate,
 );
-/*
 router.post(
   "/v1/save",
   authAuthenticate,
   authAuthenticatePractician,
   prescriptionSave,
 );
-*/
 router.get(
   "/v1/:prescriptionid",
   prescriptionGetOne,
