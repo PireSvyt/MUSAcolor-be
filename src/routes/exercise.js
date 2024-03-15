@@ -7,6 +7,7 @@ const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePat
 
 const exerciseCreate = require("../controllers/exercise/exerciseCreate.js");
 const exerciseGetOne = require("../controllers/exercise/exerciseGetOne.js");
+const exerciseGetMine = require("../controllers/exercise/exerciseGetMine.js");
 const exerciseSave = require("../controllers/exercise/exerciseSave.js");
 const exerciseDelete = require("../controllers/exercise/exerciseDelete.js");
 
@@ -27,6 +28,12 @@ router.post(
   authAuthenticate,
   authAuthenticatePractician,
   exerciseGetOne,
+);
+router.post(
+  "/v1/getmine",
+  authAuthenticate,
+  authAuthenticatePractician,
+  exerciseGetMine,
 );
 router.post(
   "/v1/delete",
