@@ -48,6 +48,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
     {
       $project: {
         _id: 0,
+        creationDate: 1,
         editionDate: 1,
         exercises: 1,
         aggregatedExercises: 1

@@ -32,8 +32,8 @@ module.exports = userGetOne = (req, res, next) => {
             $project: {
               _id: 0,
               patientid: 1,
-              //practicianid: 1,
               name: 1,
+              databseURL: 1,
             },
           },
         ],
@@ -50,6 +50,7 @@ module.exports = userGetOne = (req, res, next) => {
             $project: {
               _id: 0,
               exerciseid: 1,
+              creationDate: 1,
               editionDate: 1,
               name: 1,
               type: 1,

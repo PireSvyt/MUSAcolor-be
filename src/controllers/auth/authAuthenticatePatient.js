@@ -22,7 +22,7 @@ module.exports = authAuthenticatePatient = (req, res, next) => {
     // Assess patient is one of my patients
     if (req.body.patientid !== undefined) {
       console.log("req.augmented", req.augmented)
-      if (req.augmented.user.patients.includes(req.body.patientid)) {
+      if (req.augmented.user.patients.map(patient => {return (patient.patientid)}).includes(req.body.patientid)) {
           next()
       } else {
           return res.status(403).json({

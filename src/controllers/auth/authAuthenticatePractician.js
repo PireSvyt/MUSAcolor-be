@@ -27,14 +27,6 @@ module.exports = authAuthenticatePractician = (req, res, next) => {
         foreignField: "practicianid",
         localField: "userid",
         as: "patients",
-        pipeline: [
-          {
-            $project: {
-              _id: 0,
-              patientid: 1,
-            },
-          },
-        ],
       },
     },
   ])
@@ -43,9 +35,7 @@ module.exports = authAuthenticatePractician = (req, res, next) => {
         let user = users[0];
         if (user.type === "practician" || user.type === "admin") {
           req.augmented.user.type = user.type;
-          req.augmented.user.patients = user.patients.map(
-            patient => {return (patient.patientid)}
-          );
+          req.augmented.user.patients = user.patients
           next();
         } else {
           return res.status(403).json({

@@ -11,6 +11,7 @@ const prescriptionSchema = mongoose.Schema(
     prescriptionid: { type: String, required: true, unique: true },
     practicianid: { type: String, required: true },
     patientid: { type: String, required: true },
+    creationDate: { type: Date, required: true },
     editionDate: { type: Date },
     exercises: [{
       exerciseid: { type: String, required: true },

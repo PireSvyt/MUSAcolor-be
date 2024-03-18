@@ -53,6 +53,7 @@ module.exports = patientGetMine = (req, res, next) => {
             $project: {
               _id: 0,
               prescriptionid: 1,
+              creationDate: 1,
               editionDate: 1,
               exercises: 1
             },
@@ -65,6 +66,7 @@ module.exports = patientGetMine = (req, res, next) => {
         _id: 0,
         patientid: 1,
         name: 1,
+        databaseURL: 1,
         exams: 1,
         prescriptions: 1
       },

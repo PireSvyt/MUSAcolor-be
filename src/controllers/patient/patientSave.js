@@ -37,7 +37,8 @@ module.exports = patientSave = (req, res, next) => {
     // Save
     Patient.updateOne({ 
       patientid: patientToSave.patientid,
-      practicianid: decodedToken.userid
+      practicianid: decodedToken.userid,
+      creationDate: req.augmented.user.patients.filter(patient => patient.patientid === patientToSave.patientid)[0].creationDate
     }, patientToSave)
       .then(() => {
         console.log("patient.save.success.modified");
