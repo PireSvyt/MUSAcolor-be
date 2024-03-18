@@ -33,7 +33,7 @@ module.exports = userGetOne = (req, res, next) => {
               _id: 0,
               patientid: 1,
               name: 1,
-              databseURL: 1,
+              databaseURL: 1,
             },
           },
         ],
