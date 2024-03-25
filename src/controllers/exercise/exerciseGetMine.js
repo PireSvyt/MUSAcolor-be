@@ -28,8 +28,6 @@ module.exports = exerciseGetMine = (req, res, next) => {
         editionDate: 1,
         name: 1,
         type: 1,
-        duration: 1,
-        instructions: 1,
         data: 1,
       },      
     },
