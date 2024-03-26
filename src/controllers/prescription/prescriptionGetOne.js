@@ -67,8 +67,10 @@ module.exports = prescriptionGetOne = (req, res, next) => {
           let consoleidatedExercise = {...exercise}
           if (consoleidatedExercise.exerciseid !== 'userDefined') {
             let myExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+            console.log("myExercise", myExercise);
             Object.keys(myExercise).forEach(k => {
               if (!keysToRemove.includes(k)) {
+                console.log("myExercise["+k+"]", myExercise[k]);
                 consoleidatedExercise[k] = myExercise[k]
               }
             })
