@@ -62,12 +62,16 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         // Repackaging
         let outcome = {...prescription[0]}
         let exercises = []
-        outcome.aggregatedExercises.forEach(exercise => {
+        let keysToRemove = [ '_id', 'practicianid', 'editionDate', '__v' ]
+        prescription.exercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
-          // Add posology if any
-          let prescribedExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
-          if (prescribedExercise.posology !== undefined) {
-            consoleidatedExercise.posology = prescribedExercise.posology
+          if (consoleidatedExercise.exerciseid !== 'userDefined') {
+            let myExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+            Object.keys(myExercise).forEach(k => {
+              if (!keysToRemove.includes(k)) {
+                consoleidatedExercise[k] = myExercise[k]
+              }
+            })
           }
           exercises.push(consoleidatedExercise)
         })
