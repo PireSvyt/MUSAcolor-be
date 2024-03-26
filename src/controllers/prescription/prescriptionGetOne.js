@@ -66,11 +66,11 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         outcome.exercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
           if (consoleidatedExercise.exerciseid !== 'userDefined') {
-            let myExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
-            console.log("myExercise", myExercise);
+            let myExercise = outcome.aggregatedExercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
+            //console.log("myExercise", myExercise);
             Object.keys(myExercise).forEach(k => {
               if (!keysToRemove.includes(k)) {
-                console.log("myExercise["+k+"]", myExercise[k]);
+                //console.log("myExercise["+k+"]", myExercise[k]);
                 consoleidatedExercise[k] = myExercise[k]
               }
             })
@@ -79,7 +79,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         })
         outcome.exercises = exercises
         delete outcome.aggregatedExercises
-        console.log("exercises", exercises);
+        //console.log("exercises", exercises);
         // Response
         return res.status(200).json({
           type: "prescription.get.success",
