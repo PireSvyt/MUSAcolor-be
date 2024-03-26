@@ -63,7 +63,7 @@ module.exports = prescriptionGetOne = (req, res, next) => {
         let outcome = {...prescription[0]}
         let exercises = []
         let keysToRemove = [ '_id', 'practicianid', 'editionDate', '__v' ]
-        prescription.exercises.forEach(exercise => {
+        outcome.exercises.forEach(exercise => {
           let consoleidatedExercise = {...exercise}
           if (consoleidatedExercise.exerciseid !== 'userDefined') {
             let myExercise = outcome.exercises.filter(ex => ex.exerciseid === exercise.exerciseid)[0]
