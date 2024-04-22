@@ -1,5 +1,6 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const jwt_decode = require("jwt-decode");
 
 module.exports = authAuthenticate = (req, res, next) => {
   /*
@@ -16,9 +17,10 @@ module.exports = authAuthenticate = (req, res, next) => {
     console.log("auth.authenticate");
   }
 
-  // Prep
+  // Initialise
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
+  const decodedToken = jwt_decode(token);
 
   if (token === null) {
     console.log("auth.authenticate.error.nulltoken");
@@ -34,7 +36,12 @@ module.exports = authAuthenticate = (req, res, next) => {
           error: err,
         });
       }
-      req.user = user;
+      req.augmented = {
+        decodedToken: decodedToken,
+        user: {
+          userid: decodedToken.userid
+        }
+      }
       next();
     });
   }

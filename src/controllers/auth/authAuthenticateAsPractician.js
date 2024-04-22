@@ -27,6 +27,9 @@ module.exports = authAuthenticateAsPractician = (req, res, next) => {
     .then((user) => {
       if (user !== undefined) {
         if (user.type === "practician" || user.type === "admin") {
+          req.authenticateaspractician.decodedToken = decodedToken;
+          req.authenticateaspractician.userid = user.userid;
+          req.authenticateaspractician.type = user.type;
           next();
         } else {
           return res.status(403).json({

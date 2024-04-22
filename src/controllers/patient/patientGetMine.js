@@ -1,5 +1,4 @@
 require("dotenv").config();
-const jwt_decode = require("jwt-decode");
 const Patient = require("../../models/Patient.js");
 
 module.exports = patientGetMine = (req, res, next) => {
@@ -17,17 +16,12 @@ module.exports = patientGetMine = (req, res, next) => {
   if (process.env.DEBUG) {
     console.log("patient.getmine");
   }
-
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
   
   Patient.aggregate([
     {
       $match: { 
         patientid: req.body.patientid, 
-        practicianid: decodedToken.userid
+        practicianid: req.augmented.user.userid
       },
     },
     {
@@ -49,11 +43,32 @@ module.exports = patientGetMine = (req, res, next) => {
       },
     },
     {
+      $lookup: {
+        from: "prescriptions",
+        foreignField: "patientid",
+        localField: "patientid",
+        as: "prescriptions",
+        pipeline: [
+          {
+            $project: {
+              _id: 0,
+              prescriptionid: 1,
+              creationDate: 1,
+              editionDate: 1,
+              exercises: 1
+            },
+          },
+        ],
+      },
+    },
+    {
       $project: {
         _id: 0,
         patientid: 1,
         name: 1,
-        exams: 1
+        databaseURL: 1,
+        exams: 1,
+        prescriptions: 1
       },
     },
   ])

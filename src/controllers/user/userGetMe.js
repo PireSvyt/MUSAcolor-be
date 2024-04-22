@@ -1,5 +1,4 @@
 require("dotenv").config();
-const jwt_decode = require("jwt-decode");
 const User = require("../../models/User.js");
 
 module.exports = userGetOne = (req, res, next) => {
@@ -18,14 +17,9 @@ module.exports = userGetOne = (req, res, next) => {
     console.log("user.getme");
   }
 
-  // Initialise
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  const decodedToken = jwt_decode(token);
-
   User.aggregate([
     {
-      $match: { userid: decodedToken.userid },
+      $match: { userid: req.augmented.user.userid },
     },
     {
       $lookup: {
@@ -38,8 +32,31 @@ module.exports = userGetOne = (req, res, next) => {
             $project: {
               _id: 0,
               patientid: 1,
-              //practicianid: 1,
               name: 1,
+              databaseURL: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $lookup: {
+        from: "exercises",
+        foreignField: "practicianid",
+        localField: "userid",
+        as: "exercises",
+        pipeline: [
+          {
+            $project: {
+              _id: 0,
+              exerciseid: 1,
+              creationDate: 1,
+              editionDate: 1,
+              name: 1,
+              type: 1,
+              duration: 1,
+              instructions: 1,
+              data: 1,
             },
           },
         ],
@@ -51,6 +68,7 @@ module.exports = userGetOne = (req, res, next) => {
         userid: 1,
         type: 1,
         patients: 1,
+        exercises: 1,
       },
     },
   ])

@@ -11,6 +11,7 @@ const patientSchema = mongoose.Schema(
     patientid: { type: String, required: true, unique: true },
     practicianid: { type: String, required: true },
     name: { type: String, required: true },
+    databaseURL: { type: String },
     /*
     firstname: { type: String },
     lastname: { type: String },

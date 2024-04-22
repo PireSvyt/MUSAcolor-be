@@ -3,8 +3,8 @@ const router = express.Router();
 
 const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
 const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
-const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
-const authAuthenticateMyPractice = require("../controllers/auth/authAuthenticateMyPractice.js");
+const authAuthenticatePractician = require("../controllers/auth/authAuthenticatePractician.js");
+const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePatient.js");
 
 const examCreate = require("../controllers/exam/examCreate.js");
 //const examSave = require("../controllers/exam/examSave.js");
@@ -17,29 +17,29 @@ const examGetAnalysis = require("../controllers/exam/examGetAnalysis.js");
 router.post(
   "/v1/create",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   examCreate,
 );
 /*
 router.post(
   "/v1/save",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  authAuthenticatePractician,
   examSave,
 );
 router.get(
   "/v1/:examid",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  authAuthenticatePractician,
   examGetOne,
 );
 */
 router.post(
   "/v1/getanalysis",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   examGetAnalysis,
 );
 router.post(
@@ -52,15 +52,15 @@ router.post(
 router.delete(
   "/v1/:examid",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  authAuthenticatePractician,
   examDelete,
 );
 */
 router.post(
   "/v1/delete",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   examDeleteMine,
 );
 

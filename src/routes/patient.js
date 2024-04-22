@@ -3,8 +3,8 @@ const router = express.Router();
 
 const authAuthenticate = require("../controllers/auth/authAuthenticate.js");
 const adminAuthenticate = require("../controllers/admin/adminAuthenticate.js");
-const authAuthenticateAsPractician = require("../controllers/auth/authAuthenticateAsPractician.js");
-const authAuthenticateMyPractice = require("../controllers/auth/authAuthenticateMyPractice.js");
+const authAuthenticatePractician = require("../controllers/auth/authAuthenticatePractician.js");
+const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePatient.js");
 
 const patientCreate = require("../controllers/patient/patientCreate.js");
 const patientSave = require("../controllers/patient/patientSave.js");
@@ -17,14 +17,14 @@ const patientDeleteMine = require("../controllers/patient/patientDeleteMine.js")
 router.post(
   "/v1/create",
   authAuthenticate,
-  authAuthenticateAsPractician,
+  authAuthenticatePractician,
   patientCreate,
 );
 router.post(
   "/v1/save",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   patientSave,
 );
 /*
@@ -38,8 +38,8 @@ router.get(
 router.post(
   "/v1/getmine",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   patientGetMine,
 );
 router.post(
@@ -57,8 +57,8 @@ router.delete(
 router.post(
   "/v1/deletemine",
   authAuthenticate,
-  authAuthenticateAsPractician,
-  authAuthenticateMyPractice,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
   patientDeleteMine,
 );
 
