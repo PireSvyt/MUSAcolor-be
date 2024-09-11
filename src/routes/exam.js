@@ -66,7 +66,7 @@ router.post(
   examDeleteMine,
 );
 router.post(
-  "/v1/getremotely",
+  "/v1/getremotely/:examtoken",
   examGetRemotely,
 );
 router.post(
