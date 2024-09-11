@@ -61,6 +61,24 @@ module.exports = async function serviceMailing(mail, details = {}) {
           html: replaceTokens(mails.resetpassword[lang].html, replacements),
         };
         break;
+      case "notifypracticianofperformedexam":
+        replacements = [
+          {
+            token: "{{PATIENT_URL}}",
+            value: "https://musacolor.vercel.app/patient/" + details.patientid,
+          },
+          {
+            token: "{{PATIENT_NAME}}",
+            value: details.patientname,
+          },
+        ];
+        mailToSend = {
+          to: "'" + details.practicianlogin + "<" + details.practicianlogin + ">'",
+          subject: replaceTokens(mails.notifypracticianofperformedexam[lang].subject, replacements),
+          text: replaceTokens(mails.notifypracticianofperformedexam[lang].text, replacements),
+          html: replaceTokens(mails.notifypracticianofperformedexam[lang].html, replacements),
+        };
+        break;
       default:
         // mail not found
         break;
