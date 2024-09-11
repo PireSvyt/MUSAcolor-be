@@ -53,15 +53,16 @@ module.exports = examSaveRemotely = (req, res, next) => {
                       { practicianlogin: practician.login, 
                         patientid: patient.patientid, 
                         patientname: patient.name
-                      })
+                      }).then(() => {
+                        // Send resoinse
+                        console.log("exam.saveremotely.success.modified");
+                        return res.status(200).json({
+                          type: "exam.saveremotely.success.modified",
+                        });
+                      })  
                   })
                 })      
-                // Send resoinse
-                console.log("exam.saveremotely.success.modified");
-                return res.status(200).json({
-                  type: "exam.saveremotely.success.modified",
-                });
-              })
+                              })
               .catch((error) => {
                 console.log("exam.saveremotely.error.onmodify");
                 console.error(error);
