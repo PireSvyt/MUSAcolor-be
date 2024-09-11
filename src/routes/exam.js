@@ -13,6 +13,8 @@ const examGetAll = require("../controllers/exam/examGetAll.js");
 //const examDelete = require("../controllers/exam/examDelete.js");
 const examDeleteMine = require("../controllers/exam/examDeleteMine.js");
 const examGetAnalysis = require("../controllers/exam/examGetAnalysis.js");
+const examGetRemotely = require("../controllers/exam/examGetRemotely.js");
+const examSaveRemotely = require("../controllers/exam/examSaveRemotely.js");
 
 router.post(
   "/v1/create",
@@ -62,6 +64,14 @@ router.post(
   authAuthenticatePractician,
   authAuthenticatePatient,
   examDeleteMine,
+);
+router.post(
+  "/v1/getremotely",
+  examGetRemotely,
+);
+router.post(
+  "/v1/saveremotely",
+  examSaveRemotely,
 );
 
 module.exports = router;
