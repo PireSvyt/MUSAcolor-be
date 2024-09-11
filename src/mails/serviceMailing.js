@@ -64,11 +64,11 @@ module.exports = async function serviceMailing(mail, details = {}) {
       case "notifypracticianofperformedexam":
         replacements = [
           {
-            patientid: "{{PATIENTID}}",
-            value: details.patientid,
+            token: "{{PATIENT_URL}}",
+            value: "https://musacolor.vercel.app/patient/" + details.patientid,
           },
           {
-            patientid: "{{PATIENTNAME}}",
+            token: "{{PATIENT_NAME}}",
             value: details.patientname,
           },
         ];
