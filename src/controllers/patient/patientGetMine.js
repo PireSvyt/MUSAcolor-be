@@ -37,6 +37,7 @@ module.exports = patientGetMine = (req, res, next) => {
               examid: 1,
               type: 1,
               date: 1,
+              token: 1
             },
           },
         ],
