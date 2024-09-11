@@ -18,10 +18,6 @@ module.exports = async function serviceMailing(mail, details = {}) {
     
     */
 
-  if (process.env.DEBUG) {
-    console.log("mail.mailing");
-  }
-
   const lang = "fr";
 
   return new Promise((resolve, reject) => {
@@ -85,6 +81,7 @@ module.exports = async function serviceMailing(mail, details = {}) {
     }
     // Send email
     if (mailToSend) {
+      console.log("mail.mailing" + mail, mailToSend);
       serviceSendMail(mailToSend).then((outcome) => {
         if (outcome.type === "mail.sentmail.success") {
           console.log("mail.mailing.success");
