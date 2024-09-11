@@ -65,7 +65,7 @@ router.post(
   authAuthenticatePatient,
   examDeleteMine,
 );
-router.post(
+router.get(
   "/v1/getremotely/:examtoken",
   examGetRemotely,
 );
