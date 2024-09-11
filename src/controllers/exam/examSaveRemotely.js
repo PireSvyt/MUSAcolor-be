@@ -22,11 +22,11 @@ module.exports = examSaveRemotely = (req, res, next) => {
 
   // Save
   if (req.body.examid === "" || req.body.examid === undefined || 
-      req.body.token === "" || req.body.token === undefined) {
+      req.body.token === "" || req.body.token === undefined || 
+      req.body.results === undefined) {
     console.log("exam.saveremotely.error.inputs");
     return res.status(503).json({
       type: "exam.saveremotely.error.inputs",
-      error: error,
     });
   } else {
     // Modify
