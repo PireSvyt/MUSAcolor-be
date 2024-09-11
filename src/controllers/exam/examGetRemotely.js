@@ -34,7 +34,7 @@ module.exports = examGetRemotely = (req, res, next) => {
         let examToSend = {...exam}
         const keysToSend = [ "schema", "examid", "type"]
         Object.keys(exam).forEach(k => {
-          if (!keysToSend.includes()) {
+          if (!keysToSend.includes(k)) {
             delete examToSend[k]            
           }
         })        
