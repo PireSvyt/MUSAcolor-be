@@ -15,6 +15,7 @@ const examSchema = mongoose.Schema(
     //time: { type: String, required: true },
     results: { type: Object },
     //notes: { type: String, required: true },
+    token: { type: String },
   },
   { strict: true },
 );
