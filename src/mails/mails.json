@@ -7,7 +7,19 @@
     },
     "fr": {
       "subject": "MUSAcolor | Renouvelle ton mot de passe",
-      "text": "Hej!\r\n\r\n Renouvellement du mot de passe?\r\nVoici un lien pour ça:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
+      "text": "Hej!\r\n\r\nRenouvellement du mot de passe?\r\nVoici un lien pour ça:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
+      "html": null
+    }
+  },
+  "notifypracticianofperformedexam": {
+    "en": {
+      "subject": "MUSAcolor | {{PATIENT_NAME}} performed the requested exam",
+      "text": "Hej!\r\n\r\nYou sent an exam to {{PATIENT_NAME}}?\r\nHere is a link to this this patient to find the results:\r\n{{PATIENT_URL}}\r\n\r\nSee you soon,\r\nThe MUSAcolor team",
+      "html": null
+    },
+    "fr": {
+      "subject": "MUSAcolor | {{PATIENT_NAME}} a réalisé l'examen demandé",
+      "text": "Hej!\r\n\r\nVous avez envoyer un exaen à {{PATIENT_NAME}}?\r\nVoici un lien de ce patient pour consulter les résultats:\r\n{{PATIENT_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
       "html": null
     }
   }
