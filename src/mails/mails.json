@@ -18,7 +18,7 @@
       "html": null
     },
     "fr": {
-      "subject": "MUSAcolor | {{PATIENT_NAME}} a réalisé l'examen demandé",
+      "subject": "MUSAcolor | {{PATIENT_NAME}} a réalisé l'analyse demandée",
       "text": "Hej!\r\n\r\nVous avez envoyé un examen à {{PATIENT_NAME}}?\r\nC'est fait!\r\n\r\nVoici un lien de ce patient pour consulter les résultats:\r\n{{PATIENT_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
       "html": null
     }
