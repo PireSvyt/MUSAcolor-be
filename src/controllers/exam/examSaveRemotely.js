@@ -1,5 +1,7 @@
 require("dotenv").config();
 const Exam = require("../../models/Exam.js");
+const Patient = require("../../models/Patient.js");
+const User = require("../../models/User.js");
 
 module.exports = examSaveRemotely = (req, res, next) => {
   /*
@@ -43,7 +45,18 @@ module.exports = examSaveRemotely = (req, res, next) => {
           } else {
             // Save
             Exam.updateOne({ examid: examToSave.examid, token: examToken }, examToSave)
-              .then(() => {
+              .then((outcome) => {
+                // Notify practician
+                Patient.findOne({ patientid: exam.patientid }).then((patient) => {                  
+                  User.findOne({ userid: patient.practicianid }).then((practician) => {
+                    serviceMailing("notifypracticianofperformedexam", 
+                      { practicianlogin: practician.login, 
+                        patientid: patient.patientid, 
+                        patientname: patient.name
+                      })
+                  })
+                })      
+                // Send resoinse
                 console.log("exam.saveremotely.success.modified");
                 return res.status(200).json({
                   type: "exam.saveremotely.success.modified",
