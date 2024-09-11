@@ -2,6 +2,7 @@ require("dotenv").config();
 const Exam = require("../../models/Exam.js");
 const Patient = require("../../models/Patient.js");
 const User = require("../../models/User.js");
+const serviceMailing = require("../../mails/serviceMailing.js");
 
 module.exports = examSaveRemotely = (req, res, next) => {
   /*
