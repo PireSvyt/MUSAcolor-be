@@ -31,13 +31,10 @@ module.exports = examGetRemotely = (req, res, next) => {
           });          
         }        
         // Cleaning prior sending to patient
-        let examToSend = {...exam}
+        let examToSend = {}
         const keysToSend = [ "schema", "examid", "type"]
-        Object.keys(exam).forEach(k => {
-          if (!keysToSend.includes(k)) {
-            delete examToSend[k]            
-          }
-        })        
+        keysToSend.examid = exam.examid 
+        keysToSend.type = exam.type
         console.log("exam.getremotely.success");
         return res.status(200).json({
           type: "exam.getremotely.success",
