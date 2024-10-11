@@ -2,24 +2,24 @@
   "resetpassword": {
     "en": {
       "subject": "MUSAcolor | Reset your password",
-      "text": "Hej!\r\n\r\nPassword reset?\r\nHere is a link you need for this:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nSee you soon,\r\nThe MUSAcolor team",
+      "text": "Hej!\r\n\r\nPassword reset?\r\nHere is a link you need for this:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nSee you soon,\r\nThe MUSAcolor app team",
       "html": null
     },
     "fr": {
       "subject": "MUSAcolor | Renouvelle ton mot de passe",
-      "text": "Hej!\r\n\r\nRenouvellement du mot de passe?\r\nVoici un lien pour ça:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
+      "text": "Hej!\r\n\r\nRenouvellement du mot de passe?\r\nVoici un lien pour ça:\r\n{{PASSWORD_RESET_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor app",
       "html": null
     }
   },
   "notifypracticianofperformedexam": {
     "en": {
       "subject": "MUSAcolor | {{PATIENT_NAME}} performed the requested exam",
-      "text": "Hej!\r\n\r\nYou sent an exam to {{PATIENT_NAME}}?\r\nIt's done!\r\n\r\nHere is a link to this this patient to find the results:\r\n{{PATIENT_URL}}\r\n\r\nSee you soon,\r\nThe MUSAcolor team",
+      "text": "Hej!\r\n\r\nYou sent an exam to {{PATIENT_NAME}}?\r\nIt's done!\r\n\r\nHere is a link to this this patient to find the results:\r\n{{PATIENT_URL}}\r\n\r\nSee you soon,\r\nThe MUSAcolor app team",
       "html": null
     },
     "fr": {
       "subject": "MUSAcolor | {{PATIENT_NAME}} a réalisé l'analyse demandée",
-      "text": "Hej!\r\n\r\nVous avez envoyé un examen à {{PATIENT_NAME}}?\r\nC'est fait!\r\n\r\nVoici un lien de ce patient pour consulter les résultats:\r\n{{PATIENT_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor",
+      "text": "Hej!\r\n\r\nVous avez envoyé un examen à {{PATIENT_NAME}}?\r\nC'est fait!\r\n\r\nVoici un lien de ce patient pour consulter les résultats:\r\n{{PATIENT_URL}}\r\n\r\nA bientôt,\r\nL'équipe MUSAcolor app",
       "html": null
     }
   }
