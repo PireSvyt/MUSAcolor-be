@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Exam = require("../../models/Exam.js");
+const serviceComputeResults = require("./services/serviceComputeResults.js")
 
 module.exports = examGetList = (req, res, next) => {
   /*
@@ -23,11 +24,16 @@ module.exports = examGetList = (req, res, next) => {
   })
     .then((exams) => {
       if (exams.length > 0) {
+        // Process results
+        let examsToSend = []
+        exams.forEach(exam => {
+          examsToSend.push(serviceComputeResults(exam.toObject()))
+        })
         console.log("exam.getlist.success");
         return res.status(200).json({
           type: "exam.getlist.success",
           data: {
-            exams: exams,
+            exams: examsToSend,
           },
         });
       } else {
