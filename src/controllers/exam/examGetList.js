@@ -19,10 +19,10 @@ module.exports = examGetList = (req, res, next) => {
   Exam.find({
 	  patientid: req.body.patientid,
 	  type: req.body.type,
-	  examid: req.body.examids,
+	  examid: { $in : req.body.examids },
   })
     .then((exams) => {
-      if (exams !== undefined) {
+      if (exams.length > 0) {
         console.log("exam.getlist.success");
         return res.status(200).json({
           type: "exam.getlist.success",
