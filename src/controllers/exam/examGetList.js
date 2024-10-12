@@ -17,8 +17,8 @@ module.exports = examGetList = (req, res, next) => {
   }
 
   Exam.find({
-	  //patientid: req.body.patientid,
-	  //type: req.body.type,
+	  patientid: req.body.patientid,
+	  type: req.body.type,
 	  examid: { $in : req.body.examids },
   })
     .then((exams) => {
