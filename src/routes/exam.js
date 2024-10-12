@@ -9,6 +9,7 @@ const authAuthenticatePatient = require("../controllers/auth/authAuthenticatePat
 const examCreate = require("../controllers/exam/examCreate.js");
 //const examSave = require("../controllers/exam/examSave.js");
 const examGetOne = require("../controllers/exam/examGetOne.js");
+const examGetList = require("../controllers/exam/examGetList.js");
 const examGetAll = require("../controllers/exam/examGetAll.js");
 //const examDelete = require("../controllers/exam/examDelete.js");
 const examDeleteMine = require("../controllers/exam/examDeleteMine.js");
@@ -37,6 +38,13 @@ router.get(
   examGetOne,
 );
 */
+router.post(
+  "/v1/getlist",
+  authAuthenticate,
+  authAuthenticatePractician,
+  authAuthenticatePatient,
+  examGetList,
+);
 router.post(
   "/v1/getanalysis",
   authAuthenticate,
